@@ -1,7 +1,10 @@
 package main;
 
 
+import game.Platform;
+import game.Player;
 import game.Timed;
+import game.VerletIntegrator;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import render.Drawable;
 import render.GridSprite2D;
 import render.RectTextureSprite2D;
 import util.MersenneTwister;
+import util.TextureFactory;
 import util.Vector;
 import util.Positioned;
 import util.SpatialAlgorithm;
@@ -36,6 +40,16 @@ public class Model implements Runnable{
 	}
 	
 	public void run() {
+		VerletIntegrator physics = new VerletIntegrator();
+		timedObjects.add(physics);
+		Player p = new Player(new Vector(0,0));
+		Platform plat = new Platform(new Vector(100, 100), new Vector(-50,-200));
+		drawableObjects.add(p);
+		drawableObjects.add(plat);
+		
+		physics.movingObjects.add(p);
+		physics.staticObjects.add(plat);
+		
 		while (gameRunning){
 			try {
 				Thread.sleep(1);

@@ -52,6 +52,7 @@ public class Controller implements Runnable {
 			Controllers.create();
 			Player1 = Controllers.getController(0);
 			Player2 = Controllers.getController(1);
+			Controllers.poll();
 		} catch (LWJGLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

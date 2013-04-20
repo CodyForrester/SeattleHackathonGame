@@ -1,21 +1,26 @@
 package game;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
+import render.ColorSprite2D;
 import render.Drawable;
+import render.Sprite2D;
 
+import util.PhysicsObject;
 import util.RectanglePositioned;
 import util.Vector;
 
 public class Platform implements RectanglePositioned, Drawable {
 	
-	private Texture texture;
+	private static Sprite2D texture;
 	protected Vector position;
 	private Vector size;
 	
-	public Platform(Texture texture, Vector position, Vector size) {
-		this.texture = texture;
+	public Platform(Vector position, Vector size) {
+		this.texture = new ColorSprite2D(size, position, 0, Color.RED);
 		this.position = position;
 		this.size = size;
 	}
@@ -31,36 +36,21 @@ public class Platform implements RectanglePositioned, Drawable {
 	} 
 	
 	public void draw() {
-		texture.bind();
-		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		GL11.glPushMatrix();
-		GL11.glTranslated(position.x, position.y, 0);
-		
-		GL11.glColor3f(1.0f, 1.0f, 1.0f);
-		
-		GL11.glBegin(GL11.GL_QUADS);
-		{
-			GL11.glNormal3d(0, 0, 1);
-			
-			GL11.glTexCoord2d(0, 1);
-			GL11.glVertex3d(0, 0, 0);
-			
-			GL11.glTexCoord2d(1, 1);
-			GL11.glVertex3d(size.x, 0, 0);
-			
-			GL11.glTexCoord2d(1, 0);
-			GL11.glVertex3d(size.x, size.y, 0);
-			
-			GL11.glTexCoord2d(0, 0);
-			GL11.glVertex3d(0, size.y, 0);
+		texture.draw();
+	}
+	
+	public Vector collide(PhysicsObject a){
+		Vector aPosition = a.getPosition();
+		Vector aOldPosition = a.getOldPosition();
+		Vector aSize = a.getSize();
+		//if( this.y >= doA.oy + doA.height && (doA.y + doA.height >= this.y) && (doA.x < this.x + this.width && doA.x + doA.width > this.x) )
+		if( (this.position.y >= aOldPosition.y + aSize.y) && (aPosition.y + aSize.y >= this.position.y) && (aPosition.x < this.position.x + this.size.x && aPosition.x + aSize.x > this.size.x) ){
+			System.out.println("collided");
+			return new Vector(aPosition.x, this.position.y - aSize.y);
+		} else {
+			System.out.println("none");
+			return null;
 		}
-		GL11.glEnd();
-		
-		GL11.glPopMatrix();
-		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 	
 }

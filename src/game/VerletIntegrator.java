@@ -15,10 +15,12 @@ public class VerletIntegrator implements Timed{
 
 	public VerletIntegrator(){
 		movingObjects = new ArrayList<PhysicsObject>();
+		staticObjects = new ArrayList<RectanglePositioned>();
 	}
 
 	public void step(double timeStep){
 		for( PhysicsObject o : movingObjects ){
+			//o.getPosition().addInPlace(new Vector(0,-.001));
 			integrateVerlet(o, timeStep);
 		}
 		satisfyConstraints();
@@ -49,14 +51,22 @@ public class VerletIntegrator implements Timed{
 
 	private void integrateVerlet(PhysicsObject o, double timeStep){
 		Vector position = o.getPosition();
-		Vector tempPosition = position.scale(1);
+		Vector tempPosition = position.minus(new Vector());
 		Vector oldPosition = o.getOldPosition();
 		Vector a = acceleration(o, timeStep);
-		position.addInPlace(position.scale(.97).minus(oldPosition.scale(.97).plus(a.scale(timeStep*timeStep))));
+		
+		//b.x += 0.99*x-0.99*oldX+ax*dt*dt;
+		
+		position.addInPlace(
+			position
+			.minus(oldPosition)
+			.plus(a.scale(timeStep*timeStep))
+		);
+		
 		o.setOldPosition(tempPosition);
 	}
 
-	private static final Vector gravity = new Vector(0,1);
+	private static final Vector gravity = new Vector(0,-1);
 	private Vector acceleration(PhysicsObject o, double timeStep){
 		return gravity;
 	}
