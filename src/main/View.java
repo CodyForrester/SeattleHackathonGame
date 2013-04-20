@@ -175,18 +175,21 @@ public class View implements Runnable {
 
 					GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
 
-				} else if (screenState == ScreenState.TITLE) {
-					title.setDimension(new Vector(windowWidth, windowHeight));
-					title.draw();
-				}  else if (screenState == ScreenState.CONTROLS) {
-					controls.setDimension(new Vector(windowWidth, windowHeight));
-					controls.draw();
-				}  else if (screenState == ScreenState.PLAYER1WIN) {
-					player1win.setDimension(new Vector(windowWidth, windowHeight));
-					player1win.draw();
-				}  else if (screenState == ScreenState.PLAYER2WIN) {
-					player2win.setDimension(new Vector(windowWidth, windowHeight));
-					player2win.draw();
+				} else {
+					setUICamera();
+					if (screenState == ScreenState.TITLE) {
+						title.setDimension(new Vector(windowWidth, windowHeight));
+						title.draw();
+					}  else if (screenState == ScreenState.CONTROLS) {
+						controls.setDimension(new Vector(windowWidth, windowHeight));
+						controls.draw();
+					}  else if (screenState == ScreenState.PLAYER1WIN) {
+						player1win.setDimension(new Vector(windowWidth, windowHeight));
+						player1win.draw();
+					}  else if (screenState == ScreenState.PLAYER2WIN) {
+						player2win.setDimension(new Vector(windowWidth, windowHeight));
+						player2win.draw();
+					}
 				}
 				/*
 				 * End draw code
