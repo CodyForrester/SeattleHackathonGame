@@ -17,16 +17,16 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private boolean isOnGround;
 	private Vector playerSize;
 	
-	private int killCount;
-	private List<String> items;
+	//private int killCount;
+	//private List<String> items;
 	//private int mapWidth;
 	//private int mapHeight;
 	
 	//passed a valid starting position vector
 	//creates player with no kills and no items, at given vector
 	public Player(Vector starting){
-		killCount = 0;
-		items = new ArrayList<String>();
+		//killCount = 0;
+		//items = new ArrayList<String>();
 		oldPosition = starting;
 		currentPosition = starting;
 		playerSize = new Vector(20, 32);
@@ -64,6 +64,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		else
 			this.playerSize.x = 20;
 	}
+	
 	public void setController(N64Controller controller){
 		this.controller = controller;
 	}
@@ -72,51 +73,16 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		return playerSize;
 	}
 	
+	//return whether the player is on the ground
 	public boolean isOnGround(){
 		return isOnGround;
 	}
 	
+	//sets whether the player is on the ground
 	public void setIsOnGround(boolean ground){
 		isOnGround = ground;
 	}
-	//pre: passed a string containing item name
-	//post: adds item to player's arsenal
-	//     or does nothing if player already has weapon
-	public void addItem(String item){
-		if (!items.contains(item)){
-			items.add(item);
-		}
-	}
 	
-	//pre: passed a String of what item the user wants to switch to
-	//post: switches to that weapon
-	public void switchItem(String item){
-		if (!items.contains(item)){
-			throw new IllegalArgumentException("Player does not have that item");
-		}
-		currentItem = item;
-	}
-	
-	//returns what weapon the player is currently holding
-	public String currentItem(){
-		return currentItem;
-	}
-	
-	//returns current number of kills this player has
-	public int getKillCount(){
-		return killCount;
-	}
-	
-	//adds 1 to the player's score
-	public void addKill(){
-		killCount++;
-	}
-	
-	//removes 1 from the player's score
-	//can be used if the player suicides
-	public void removeKill(){
-		killCount--;
-	}
 	
 	public Vector collide(PhysicsObject a){
 		return null;
@@ -131,5 +97,45 @@ public void respawn(){
 	items.clear();
 	Random r = new Random();
 	position =  new Vector(r.nextInt(mapWidth), r.nextInt(mapHeight));
-}*/
+}
 
+
+//pre: passed a string containing item name
+//post: adds item to player's arsenal
+//     or does nothing if player already has weapon
+public void addItem(String item){
+	if (!items.contains(item)){
+		items.add(item);
+	}
+}
+
+//pre: passed a String of what item the user wants to switch to
+//post: switches to that weapon
+public void switchItem(String item){
+	if (!items.contains(item)){
+		throw new IllegalArgumentException("Player does not have that item");
+	}
+	currentItem = item;
+}
+
+//returns what weapon the player is currently holding
+public String currentItem(){
+	return currentItem;
+}
+
+//returns current number of kills this player has
+public int getKillCount(){
+	return killCount;
+}
+
+//adds 1 to the player's score
+public void addKill(){
+	killCount++;
+}
+
+//removes 1 from the player's score
+//can be used if the player suicides
+public void removeKill(){
+	killCount--;
+}
+*/
