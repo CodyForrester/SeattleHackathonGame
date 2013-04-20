@@ -63,7 +63,7 @@ public class View implements Runnable {
 		 */
 		{
 			GL11.glViewport(0, 0, windowWidth, windowHeight);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -105,12 +105,13 @@ public class View implements Runnable {
 				GL11.glColor3f(1f,1f,1f);
 				GL11.glBegin(GL11.GL_QUADS);
 				{
+					GL11.glNormal3d(0, 0, 1);
 					GL11.glVertex2f(padding,padding);
 					GL11.glVertex2f(padding+width,padding);
 					GL11.glVertex2f(padding+width,padding+height);
 					GL11.glVertex2f(padding,padding+height);
-					GL11.glEnd();
 				}
+				GL11.glEnd();
 
 				Display.update();
 			}
