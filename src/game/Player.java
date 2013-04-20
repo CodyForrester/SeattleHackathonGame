@@ -14,6 +14,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	private String currentItem;
 	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
 	private N64Controller controller;
+	private boolean isOnGround;
 	
 	private int killCount;
 	private List<String> items;
@@ -62,6 +63,13 @@ public class Player implements util.PhysicsObject, render.Drawable {
 		return new Vector(20, 32);
 	}
 	
+	public boolean isOnGround(){
+		return isOnGround;
+	}
+	
+	public void setIsOnGround(boolean ground){
+		isOnGround = ground;
+	}
 	//pre: passed a string containing item name
 	//post: adds item to player's arsenal
 	//     or does nothing if player already has weapon
