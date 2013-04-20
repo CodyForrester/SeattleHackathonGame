@@ -20,7 +20,7 @@ public class AudioPlayer {
 	public static void start(){
 		init();
 		SHOOT = new Sound("Sounds/laserb.wav", 5);
-		MUSIC = new Sound("Sounds/SPOOGHIT.wav", 10);
+		MUSIC = new Sound("Sounds/music.wav", 10);
 		// tee hee
 		//play(SHOOT);
 	}

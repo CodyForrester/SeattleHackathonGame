@@ -55,7 +55,7 @@ public class Controller implements Runnable {
 			Player1 = Controllers.getController(0);
 			Player2 = Controllers.getController(1);
 			Controllers.poll();
-		} catch (LWJGLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -69,7 +69,7 @@ public class Controller implements Runnable {
 
 	public void run() {
 		while (!Keyboard.isCreated());
-		
+		AudioPlayer.play(AudioPlayer.MUSIC);
 		boolean goodValues = false;
 		while(!goodValues){
 			try {
@@ -83,14 +83,12 @@ public class Controller implements Runnable {
 							Player1.getYAxisValue() != -1 &&
 							Player2.getYAxisValue() != -1;
 		}
-		
 		while (gameRunning) {
 			/*
 			 * Camera Controls
 			 */
 			if( Player1.isButtonPressed(0) ) {
 				AudioPlayer.play(AudioPlayer.SHOOT);
-				AudioPlayer.play(AudioPlayer.MUSIC);
 			}
 			model.player1Controller.setX(Player1.getXAxisValue());
 			model.player1Controller.setY(Player1.getYAxisValue());
