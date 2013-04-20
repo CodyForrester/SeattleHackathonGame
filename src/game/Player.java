@@ -107,7 +107,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		isOnGround = ground;
 	}
 	
-	
 	public boolean isOnWall(){
 		return isOnWall;
 	}
