@@ -4,6 +4,7 @@ import util.Vector;
 import render.ColorSprite2D;
 import java.awt.*;
 
+import main.Model;
 import main.N64Controller;
 
 public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
@@ -15,6 +16,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 	private boolean isOnWall;
 	private boolean isOnGround;
 	private int directionFacing;
+	public Player myTarget;
 	
 	//pre: passed a legal String for type, and a starting position
 	public Projectile(String type, Vector starting){
@@ -81,9 +83,11 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 		Vector aPosition = a.getPosition();
 		Vector aOldPosition = a.getOldPosition();
 		Vector aSize = a.getSize();
-		if (a instanceof Player && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
+		if (a == myTarget && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
 			//projectile hit a player, do something here
-			return a.getPosition();
+			Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
+			a.getOldPosition().setInPlace(newPosition);
+			return newPosition;
 		}
 		return null;
 	}

@@ -128,25 +128,26 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				lastFired = 100;
 				p.setOldPosition(p.getPosition().minus(new Vector(directionFacing*model.physics.PLAYER_MAX_X_SPEED*3, 0)));
 			}
+			p.myTarget = (this==model.player1)?model.player2:model.player1;
 			p.setDirection(directionFacing);
 			model.physics.movingObjects.add(p);
 			model.thingsToAdd.add(p);
-		}
-		if( isOnWall ) {
-			this.directionFacing = isLeftWall?1:-1;
-			oldPosition.addInPlace(new Vector(0, (currentPosition.y - oldPosition.y)*.01)); 
-			if( controller.getButtonJetpack() ){
-				this.oldPosition.y = currentPosition.y - .4;
-				this.oldPosition.x += .2 * -directionFacing;
-				timer = 200;
-			}
 		}
 		if (isOnGround()) {
 			if( controller.getButtonJetpack() ){
 				this.oldPosition.y -= .2;
 				timer = 200;
 			}
-		} else {
+		} else if( isOnWall ) {
+			this.directionFacing = isLeftWall?1:-1;
+			oldPosition.addInPlace(new Vector(0, (currentPosition.y - oldPosition.y)*.01)); 
+			if( controller.getButtonJetpack() ){
+				this.oldPosition.y = currentPosition.y - .2;
+				this.oldPosition.x += .1 * -directionFacing;
+				timer = 200;
+			}
+		}
+		else {
 			if( timer > 0 && controller.getButtonJetpack() && !isOnWall ){
 				this.oldPosition.y -= .000025*timer;
 			} else {
@@ -245,6 +246,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	//sets whether the player is on the ground
 	public void setIsOnGround(boolean ground){
 		isOnGround = ground;
+		if( ground ) isOnWall = false;
 	}
 	
 	public boolean isOnWall(){
@@ -253,6 +255,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	
 	public void setIsOnWall(boolean value){
 		isOnWall = value;
+		if( value ) isOnGround = false;
 	}
 	
 	public boolean removeMe(){
@@ -265,6 +268,9 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	public int getDirectionFacing(){
 		if( controller.getY() == 1 && !isOnGround ){
 			facingDown = true;
+		} else if( controller.getY() == 1 ) {
+			this.currentPosition.y--;
+			this.oldPosition.y--;
 		} else {
 			facingDown = false;
 		}

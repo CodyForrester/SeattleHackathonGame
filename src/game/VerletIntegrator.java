@@ -56,20 +56,24 @@ public class VerletIntegrator implements Timed{
 				a.setIsOnGround(false);
 				if( v.x <= model.MIN_X ){
 					v.x = model.MIN_X;
+					a.getOldPosition().x = model.MIN_X;
 					a.setIsOnWall(true);
 					a.setIsLeftWall(true);
 				}
 				if( v.x >= model.MAX_X - s.x ){
 					v.x = model.MAX_X - s.x;
+					a.getOldPosition().x = model.MAX_X - s.x;
 					a.setIsOnWall(true);
 					a.setIsLeftWall(false);
 				}
 				if( v.y <= model.MIN_Y ){
 					v.y = model.MIN_Y;
+					a.getOldPosition().y = model.MIN_Y;
 					a.setIsOnGround(true);
 				}
 				if( v.y >= model.MAX_Y - s.y ){
 					v.y = model.MAX_Y - s.y;
+					a.getOldPosition().y = model.MAX_Y - s.y;
 				}
 				for( PhysicsObject b : movingObjects ){
 					if( !a.equals(b) ){

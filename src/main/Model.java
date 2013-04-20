@@ -122,8 +122,26 @@ public class Model implements Runnable{
 		
 		VerticalPlatform plat11 = new VerticalPlatform(new Vector(3,-300), new Vector(5,120));
 		physics.staticObjects.add(plat11);
-		drawableObjects.add(plat11);
+		VerticalPlatform plat12 = new VerticalPlatform(new Vector(-213,-222), new Vector(5,110));
+		physics.staticObjects.add(plat12);
+		VerticalPlatform plat13 = new VerticalPlatform(new Vector(-111,-50), new Vector(5,72));
+		physics.staticObjects.add(plat13);
+		VerticalPlatform plat14 = new VerticalPlatform(new Vector(268,-230), new Vector(5,130));
+		physics.staticObjects.add(plat14);
+		VerticalPlatform plat15 = new VerticalPlatform(new Vector(248,-50), new Vector(5,205));
+		physics.staticObjects.add(plat15);		
+		VerticalPlatform plat16 = new VerticalPlatform(new Vector(37,-180), new Vector(5,130));
+		physics.staticObjects.add(plat16);
+		VerticalPlatform plat17 = new VerticalPlatform(new Vector(215,-130), new Vector(5,80));
+		physics.staticObjects.add(plat17);
 		
+		drawableObjects.add(plat11);
+		drawableObjects.add(plat12);
+		drawableObjects.add(plat13);
+		drawableObjects.add(plat14);
+		drawableObjects.add(plat15);
+		drawableObjects.add(plat16);
+		drawableObjects.add(plat17);
 		//LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
 		
 		drawableObjects.add(player1);

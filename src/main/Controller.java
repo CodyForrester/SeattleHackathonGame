@@ -69,7 +69,7 @@ public class Controller implements Runnable {
 
 	public void run() {
 		while (!Keyboard.isCreated());
-		//AudioPlayer.play(AudioPlayer.MUSIC);
+		AudioPlayer.play(AudioPlayer.MUSIC);
 		boolean goodValues = false;
 		while(!goodValues){
 			try {
@@ -124,7 +124,7 @@ public class Controller implements Runnable {
 			model.player2Controller.setButtonJump(Player2.isButtonPressed(N64Controller.B.getID()));
 			model.player2Controller.setButtonJetpack(Player2.isButtonPressed(N64Controller.A.getID()));
 
-			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
+			//cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player2.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
@@ -136,8 +136,11 @@ public class Controller implements Runnable {
 			Vector bottomLeft = new Vector(Math.min(p1.x, p2.x) - 50, Math.min(p1.y, p2.y) - 50);
 			Vector topRight = new Vector(Math.max(p1.x+s1.x, p2.x+s2.x) + 50, Math.max(p1.y+s1.y, p2.y+s2.y) + 50);
 			topRight.subtractInPlace(bottomLeft);
-			cameraPosition = bottomLeft.plus(topRight.scale(0.5));
-			cameraDistance = topRight.mag() * 1.5;
+			Vector cameraGoal = bottomLeft.plus(topRight.scale(0.5));
+			cameraPosition.addInPlace(cameraGoal.minus(cameraPosition).scale(.0000001));
+			double goal = topRight.mag() * 1.5;
+			
+			cameraDistance += (goal-cameraDistance)/10000000;
 			if (cameraDistance < 300)
 				cameraDistance = 300;
 			if (cameraDistance > 2500)
