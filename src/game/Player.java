@@ -52,7 +52,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public Vector getAcceleration(){
-		Vector accel = new Vector(0,-25);
+		Vector accel = new Vector(0,-15);
 		
 		if( isOnGround ){
 			accel.x = controller.getX()*5;
@@ -79,7 +79,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				this.oldPosition.y -= .2;
 				timer = 200;
 			}
-			this.playerSize.x = 15;
 		} else {
 			if( timer > 0 && controller.getButton4() ){
 				this.oldPosition.y -= .000025*timer;
@@ -87,7 +86,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				timer = 0;
 			}
 			timer--;
-			this.playerSize.x = 20;
 		}
 	}
 	

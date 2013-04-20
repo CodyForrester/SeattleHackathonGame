@@ -11,9 +11,11 @@ import util.RectanglePositioned;
 
 public class VerletIntegrator implements Timed{
 	//TODO eliminate these constants
-	static final int PLAYER_SPEED = 1;
+	static final double PLAYER_MAX_X_SPEED = .5;
 	public List<PhysicsObject> movingObjects;
 	public List<RectanglePositioned> staticObjects;
+	private List<PhysicsObject> movingToDelete;
+	
 	private Model model;
 	
 	public void setModel(Model m){
@@ -22,6 +24,11 @@ public class VerletIntegrator implements Timed{
 	public VerletIntegrator(){
 		movingObjects = new ArrayList<PhysicsObject>();
 		staticObjects = new ArrayList<RectanglePositioned>();
+		movingToDelete = new ArrayList<PhysicsObject>();
+	}
+	
+	public void deleteMovingObject(PhysicsObject p){
+		movingToDelete.add(p);
 	}
 
 	public void step(double timeStep){
@@ -67,7 +74,14 @@ public class VerletIntegrator implements Timed{
 						a.getPosition().setInPlace(coords);
 					}
 				}
+				if( a.removeMe() ){
+					movingToDelete.add(a);
+				}
 			}
+			for( PhysicsObject a : movingToDelete ){
+				movingObjects.remove(a);
+			}
+			movingToDelete.clear();
 		}
 	}
 
@@ -78,11 +92,16 @@ public class VerletIntegrator implements Timed{
 		Vector a = acceleration(o, timeStep);
 		
 		//b.x += 0.99*x-0.99*oldX+ax*dt*dt;
-		
+		Vector difference = position
+				.minus(oldPosition)
+				.plus(a.scale(timeStep*timeStep));
+		if( difference.x > PLAYER_MAX_X_SPEED ){
+			difference.x = PLAYER_MAX_X_SPEED;
+		} else if ( difference.x < -PLAYER_MAX_X_SPEED ){
+			difference.x = -PLAYER_MAX_X_SPEED;
+		}
 		position.addInPlace(
-			position
-			.minus(oldPosition)
-			.plus(a.scale(timeStep*timeStep))
+			difference
 		);
 		o.setOldPosition(tempPosition);
 	}
