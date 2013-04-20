@@ -83,7 +83,7 @@ public class View implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 				setCamera();
 
 				/*
@@ -93,8 +93,75 @@ public class View implements Runnable {
 					for (Drawable drawable : model.drawableObjects)
 						drawable.draw();
 				}
-				
 
+				setUICamera();
+
+				int padding = 10;
+				int jetpackWidth = 50;
+				int jetpackHeight = 200;
+				
+				// PLAYER 1 JETPACK
+				int player1jetpackHeight = (int) (model.player1.jetpackFuel / 400.0 * jetpackHeight);
+
+				GL11.glTranslatef(padding, padding, 0);
+				
+				GL11.glColor3f(1f, 1f, 1f);
+
+				GL11.glBegin(GL11.GL_QUADS);
+				{
+					GL11.glNormal3d(0, 0, 1);
+					GL11.glVertex2d(0, 0);
+					GL11.glVertex2d(jetpackWidth, 0);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight);
+					GL11.glVertex2d(0, jetpackHeight);
+				}
+				GL11.glEnd();
+
+				GL11.glColor3f(128/255f, 0/255f, 128/255f);
+
+				GL11.glBegin(GL11.GL_QUADS);
+				{
+					GL11.glNormal3d(0, 0, 1);
+					GL11.glVertex2d(0, jetpackHeight - player1jetpackHeight);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight - player1jetpackHeight);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight);
+					GL11.glVertex2d(0, jetpackHeight);
+				}
+				GL11.glEnd();
+				
+				GL11.glTranslatef(-padding, -padding, 0);
+
+				// PLAYER 2 JETPACK
+				int player2jetpackHeight = (int) (model.player2.jetpackFuel / 400.0 * jetpackHeight);
+
+				GL11.glTranslatef(windowWidth - jetpackWidth - padding, padding, 0);
+				
+				GL11.glColor3f(1f, 1f, 1f);
+
+				GL11.glBegin(GL11.GL_QUADS);
+				{
+					GL11.glNormal3d(0, 0, 1);
+					GL11.glVertex2d(0, 0);
+					GL11.glVertex2d(jetpackWidth, 0);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight);
+					GL11.glVertex2d(0, jetpackHeight);
+				}
+				GL11.glEnd();
+
+				GL11.glColor3f(128/255f, 0/255f, 128/255f);
+
+				GL11.glBegin(GL11.GL_QUADS);
+				{
+					GL11.glNormal3d(0, 0, 1);
+					GL11.glVertex2d(0, jetpackHeight - player2jetpackHeight);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight - player2jetpackHeight);
+					GL11.glVertex2d(jetpackWidth, jetpackHeight);
+					GL11.glVertex2d(0, jetpackHeight);
+				}
+				GL11.glEnd();
+				
+				GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
+				
 				/*
 				 * End draw code
 				 */
@@ -133,5 +200,14 @@ public class View implements Runnable {
 
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
+	}
+
+	private void setUICamera() {
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, windowWidth, windowHeight, 0, -1, 1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
+		GL11.glViewport(0, 0, windowWidth, windowHeight);
 	}
 }
