@@ -10,16 +10,27 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import render.Drawable;
+import render.RectTextureSprite2D;
 import util.PhysicsObject;
 import util.Vector;
 
 public class View implements Runnable {
-	private static final String TITLE = "MultiPlayerGame v. 0.0.0.0.0.0.0.1";
+	private static final String TITLE = "MultiPlayerGame v. 1";
 
 	private Model model;
 	private Controller controller;
 
 	private int windowWidth, windowHeight;
+
+	public enum ScreenState {TITLE, CONTROLS, PLAYER1WIN, PLAYER2WIN, GAME};
+
+	public ScreenState screenState = ScreenState.TITLE;
+
+	private static final RectTextureSprite2D
+	title = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/title.png", "PNG"),
+	controls = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/controls.png", "PNG"),
+	player1win = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/player1win.png", "PNG"),
+	player2win = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/player1win.png", "PNG");
 
 	public View(int width, int height) {
 		windowWidth = width;
@@ -84,84 +95,99 @@ public class View implements Runnable {
 					e.printStackTrace();
 				}
 
-				setCamera();
+				if (screenState == ScreenState.GAME) {
 
-				/*
-				 * Draw Code
-				 */
-				synchronized (model.drawableObjects) {
-					for (Drawable drawable : model.drawableObjects)
-						drawable.draw();
+					setCamera();
+
+					/*
+					 * Draw Code
+					 */
+					synchronized (model.drawableObjects) {
+						for (Drawable drawable : model.drawableObjects)
+							drawable.draw();
+					}
+
+					setUICamera();
+
+					int padding = 10;
+					int jetpackWidth = 50;
+					int jetpackHeight = 200;
+
+					// PLAYER 1 JETPACK
+					int player1jetpackHeight = (int) (model.player1.jetpackFuel / 400.0 * jetpackHeight);
+
+					GL11.glTranslatef(padding, padding, 0);
+
+					GL11.glColor3f(1f, 1f, 1f);
+
+					GL11.glBegin(GL11.GL_QUADS);
+					{
+						GL11.glNormal3d(0, 0, 1);
+						GL11.glVertex2d(0, 0);
+						GL11.glVertex2d(jetpackWidth, 0);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight);
+						GL11.glVertex2d(0, jetpackHeight);
+					}
+					GL11.glEnd();
+
+					GL11.glColor3f(128/255f, 0/255f, 128/255f);
+
+					GL11.glBegin(GL11.GL_QUADS);
+					{
+						GL11.glNormal3d(0, 0, 1);
+						GL11.glVertex2d(0, jetpackHeight - player1jetpackHeight);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight - player1jetpackHeight);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight);
+						GL11.glVertex2d(0, jetpackHeight);
+					}
+					GL11.glEnd();
+
+					GL11.glTranslatef(-padding, -padding, 0);
+
+					// PLAYER 2 JETPACK
+					int player2jetpackHeight = (int) (model.player2.jetpackFuel / 400.0 * jetpackHeight);
+
+					GL11.glTranslatef(windowWidth - jetpackWidth - padding, padding, 0);
+
+					GL11.glColor3f(1f, 1f, 1f);
+
+					GL11.glBegin(GL11.GL_QUADS);
+					{
+						GL11.glNormal3d(0, 0, 1);
+						GL11.glVertex2d(0, 0);
+						GL11.glVertex2d(jetpackWidth, 0);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight);
+						GL11.glVertex2d(0, jetpackHeight);
+					}
+					GL11.glEnd();
+
+					GL11.glColor3f(128/255f, 0/255f, 128/255f);
+
+					GL11.glBegin(GL11.GL_QUADS);
+					{
+						GL11.glNormal3d(0, 0, 1);
+						GL11.glVertex2d(0, jetpackHeight - player2jetpackHeight);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight - player2jetpackHeight);
+						GL11.glVertex2d(jetpackWidth, jetpackHeight);
+						GL11.glVertex2d(0, jetpackHeight);
+					}
+					GL11.glEnd();
+
+					GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
+
+				} else if (screenState == ScreenState.TITLE) {
+					title.setDimension(new Vector(windowWidth, windowHeight));
+					title.draw();
+				}  else if (screenState == ScreenState.CONTROLS) {
+					controls.setDimension(new Vector(windowWidth, windowHeight));
+					controls.draw();
+				}  else if (screenState == ScreenState.PLAYER1WIN) {
+					player1win.setDimension(new Vector(windowWidth, windowHeight));
+					player1win.draw();
+				}  else if (screenState == ScreenState.PLAYER2WIN) {
+					player2win.setDimension(new Vector(windowWidth, windowHeight));
+					player2win.draw();
 				}
-
-				setUICamera();
-
-				int padding = 10;
-				int jetpackWidth = 50;
-				int jetpackHeight = 200;
-				
-				// PLAYER 1 JETPACK
-				int player1jetpackHeight = (int) (model.player1.jetpackFuel / 400.0 * jetpackHeight);
-
-				GL11.glTranslatef(padding, padding, 0);
-				
-				GL11.glColor3f(1f, 1f, 1f);
-
-				GL11.glBegin(GL11.GL_QUADS);
-				{
-					GL11.glNormal3d(0, 0, 1);
-					GL11.glVertex2d(0, 0);
-					GL11.glVertex2d(jetpackWidth, 0);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight);
-					GL11.glVertex2d(0, jetpackHeight);
-				}
-				GL11.glEnd();
-
-				GL11.glColor3f(128/255f, 0/255f, 128/255f);
-
-				GL11.glBegin(GL11.GL_QUADS);
-				{
-					GL11.glNormal3d(0, 0, 1);
-					GL11.glVertex2d(0, jetpackHeight - player1jetpackHeight);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight - player1jetpackHeight);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight);
-					GL11.glVertex2d(0, jetpackHeight);
-				}
-				GL11.glEnd();
-				
-				GL11.glTranslatef(-padding, -padding, 0);
-
-				// PLAYER 2 JETPACK
-				int player2jetpackHeight = (int) (model.player2.jetpackFuel / 400.0 * jetpackHeight);
-
-				GL11.glTranslatef(windowWidth - jetpackWidth - padding, padding, 0);
-				
-				GL11.glColor3f(1f, 1f, 1f);
-
-				GL11.glBegin(GL11.GL_QUADS);
-				{
-					GL11.glNormal3d(0, 0, 1);
-					GL11.glVertex2d(0, 0);
-					GL11.glVertex2d(jetpackWidth, 0);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight);
-					GL11.glVertex2d(0, jetpackHeight);
-				}
-				GL11.glEnd();
-
-				GL11.glColor3f(128/255f, 0/255f, 128/255f);
-
-				GL11.glBegin(GL11.GL_QUADS);
-				{
-					GL11.glNormal3d(0, 0, 1);
-					GL11.glVertex2d(0, jetpackHeight - player2jetpackHeight);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight - player2jetpackHeight);
-					GL11.glVertex2d(jetpackWidth, jetpackHeight);
-					GL11.glVertex2d(0, jetpackHeight);
-				}
-				GL11.glEnd();
-				
-				GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
-				
 				/*
 				 * End draw code
 				 */
