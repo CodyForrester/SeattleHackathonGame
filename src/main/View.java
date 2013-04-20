@@ -25,7 +25,7 @@ public class View implements Runnable {
 		windowWidth = width;
 		windowHeight = height;
 	}
-	
+
 	public View(){
 		DisplayMode d = Display.getDesktopDisplayMode();
 		windowWidth = d.getWidth();
@@ -46,7 +46,7 @@ public class View implements Runnable {
 		 */
 
 		try {
-			
+
 			Display.setDisplayMode(Display.getDesktopDisplayMode());
 			Display.setFullscreen(true);
 			Display.setVSyncEnabled(true);
@@ -97,6 +97,20 @@ public class View implements Runnable {
 				/*
 				 * End draw code
 				 */
+
+				int padding = 10;
+				int width = 200;
+				int height = 50;
+				
+				GL11.glColor3f(1f,1f,1f);
+				GL11.glBegin(GL11.GL_QUADS);
+				{
+					GL11.glVertex2f(padding,padding);
+					GL11.glVertex2f(padding+width,padding);
+					GL11.glVertex2f(padding+width,padding+height);
+					GL11.glVertex2f(padding,padding+height);
+					GL11.glEnd();
+				}
 
 				Display.update();
 			}
