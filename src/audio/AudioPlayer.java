@@ -2,6 +2,8 @@ package audio;
 
 import java.io.BufferedInputStream;
 import java.nio.FloatBuffer;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -11,6 +13,17 @@ import org.lwjgl.util.WaveData;
 
 public class AudioPlayer {
 
+	// SUPER HACKY
+	public static Sound
+	SHOOT;
+	
+	static {
+		init();
+		SHOOT = new Sound("Sounds/laserb.wav");
+		// tee hee
+		play(SHOOT);
+	}
+	
 	/** Position of the source sound. */
 	private static final FloatBuffer sourcePos = (FloatBuffer)BufferUtils.createFloatBuffer(3).put(new float[] { 0.0f, 0.0f, 0.0f }).rewind();
 
@@ -26,6 +39,8 @@ public class AudioPlayer {
 	/** Orientation of the listener. (first 3 elements are "at", second 3 are "up") */
 	private static final FloatBuffer listenerOri = (FloatBuffer)BufferUtils.createFloatBuffer(6).put(new float[] { 0.0f, 0.0f, -1.0f,  0.0f, 1.0f, 0.0f }).rewind();
 
+	public static List<int[]> loadedSounds = new LinkedList<int[]>();
+	
 	public static int loadSource(String filepath) {
 		// Load wav data into a buffer.
 		//AL10.alGenBuffers(buffer);
@@ -96,9 +111,6 @@ public class AudioPlayer {
 	}
 
 	public static void end() {
-		// TODO fix memory leaks
-		//AL10.alDeleteSources(source);
-		//AL10.alDeleteBuffers(buffer);
 		AL.destroy();
 	}
 
@@ -112,18 +124,6 @@ public class AudioPlayer {
 
 	public static void pause(Sound sound) {
 		AL10.alSourcePause(sound.getSource());
-	}
-
-	public static void main(String[] args) {
-		init();
-		Sound shoot = new Sound("Sounds/laserb.wav");
-		play(shoot);
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		end();
 	}
 
 }
