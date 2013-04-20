@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 import render.ColorSprite2D;
+import java.awt.*;
 
 public class Player implements util.PhysicsObject, render.Drawable {
 	private Vector currentPosition;
@@ -12,7 +13,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	private String currentItem;
 	private int playerWidth;
 	private int playerHeight;
-	private ColorSprite2D playersprite;
+	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
 	
 	private int killCount;
 	private List<String> items;
@@ -28,7 +29,6 @@ public class Player implements util.PhysicsObject, render.Drawable {
 		playerHeight = height;
 		oldPosition = new Vector();
 		currentPosition = new Vector();
-		//playersprite = new ColorSprite2D(????);
 	}
 	
 
