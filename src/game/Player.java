@@ -31,6 +31,8 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private int killCount;
 	public int jetpackFuel;
 	private int ammo;
+	private boolean wasPunch;
+	public boolean hasUpperHand;
 	
 	//Sprites:
 	public static RectTextureSprite2D crownSprite;
@@ -148,8 +150,26 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				p.setDirection(directionFacing);
 				model.physics.movingObjects.add(p);
 				model.thingsToAdd.add(p);
+				wasPunch = false;
 			} else {
 				//TODO: Punch
+				lastFired = 100;
+				wasPunch = true;
+				if( this == model.player1 ){
+					if( hasUpperHand ){
+						model.player2.removeKill();
+						Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
+						model.player2.getOldPosition().setInPlace(newPosition);
+						model.player2.getPosition().setInPlace(newPosition);
+					}
+				} else {
+					if( hasUpperHand  ){
+						model.player1.removeKill();
+						Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
+						model.player1.getOldPosition().setInPlace(newPosition);
+						model.player1.getPosition().setInPlace(newPosition);
+					}
+				}
 			}
 		}
 		if (isOnGround()) {
@@ -159,16 +179,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				this.oldPosition.y -= .2;
 				timer = 200;
 			}
-		} else if( isOnWall && false ) {
-			//this.directionFacing = isLeftWall?1:-1;
-			//oldPosition.addInPlace(new Vector(0, (currentPosition.y - oldPosition.y)*.01)); 
-			/*if( controller.getButtonJetpack() && false ){
-				this.oldPosition.y = currentPosition.y - .1;
-				this.oldPosition.x += .05 * -directionFacing;
-				timer = 200;
-			}*/
-		}
-		else {
+		} else {
 			if( timer > 0 && controller.getButtonJetpack() ){
 				this.oldPosition.y -= .000025*timer;
 			} else {
@@ -202,11 +213,18 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				}
 			}
 		} else if ( lastFired > 0 ) {
-			System.out.println("didFire");
-			if( this == model.player1 ){
-				currentSprite = player1Gun;
+			if( wasPunch ) {
+				if( this == model.player1 ){
+					currentSprite = player1Punch;
+				} else {
+					currentSprite = player2Punch;
+				}
 			} else {
-				currentSprite = player2Gun;
+				if( this == model.player1 ){
+					currentSprite = player1Gun;
+				} else {
+					currentSprite = player2Gun;
+				}
 			}
 		} else if( isOnGround ){
 			double speed = Math.abs(this.currentPosition.x - this.oldPosition.x);
@@ -314,7 +332,22 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		return directionFacing;
 	}
 	
-	public Vector collide(PhysicsObject a){
+	public Vector collide(PhysicsObject b){
+		if( b instanceof Player && this == model.player1 ){
+			Player a = (Player)b;
+			Vector aPosition = a.getPosition();
+			Vector aSize = a.getSize();
+			if( ((this.currentPosition.y >= aPosition.y && this.currentPosition.y <= aPosition.y + aSize.y) || (this.currentPosition.y + playerSize.y >= aPosition.y && this.currentPosition.y + playerSize.y <= aPosition.y + aSize.y)) &&
+				((this.currentPosition.x >= aPosition.x && this.currentPosition.x <= aPosition.x + aSize.x) || (this.currentPosition.x + playerSize.x >= aPosition.x && this.currentPosition.x + playerSize.x <= aPosition.x + aSize.x))) {
+				//They overlap
+				System.out.println("Overlap");
+				model.player1.hasUpperHand = true;
+				model.player2.hasUpperHand = true;
+			} else {
+				model.player1.hasUpperHand = false;
+				model.player2.hasUpperHand = false;
+			}
+		}
 		return null;
 	}
 	

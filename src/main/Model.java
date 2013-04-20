@@ -64,8 +64,8 @@ public class Model implements Runnable{
 		drawableObjects.add(new RectTextureSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 0, "assets/textures/Stage1.png", "PNG"));
 		
 		//Player Sprites
-		Player.player1Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatPunch.png", "PNG");
-		Player.player2Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocPunch.png", "PNG");
+		Player.player1Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatPunch1.png", "PNG");
+		Player.player2Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocPunch1.png", "PNG");
 		Player.player1Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatStanding.png", "PNG");
 		Player.player2Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocStanding.png", "PNG");
 		Player.player1Jump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJump.png", "PNG");
@@ -138,13 +138,6 @@ public class Model implements Runnable{
 		VerticalPlatform plat17 = new VerticalPlatform(new Vector(215,-130), new Vector(5,80));
 		physics.staticObjects.add(plat17);
 		
-		drawableObjects.add(plat11);
-		drawableObjects.add(plat12);
-		drawableObjects.add(plat13);
-		drawableObjects.add(plat14);
-		drawableObjects.add(plat15);
-		drawableObjects.add(plat16);
-		drawableObjects.add(plat17);
 		//LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
 		
 		drawableObjects.add(player1);
