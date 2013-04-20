@@ -66,7 +66,7 @@ public class VerletIntegrator implements Timed{
 		o.setOldPosition(tempPosition);
 	}
 
-	private static final Vector gravity = new Vector(0,-1);
+	private static final Vector gravity = new Vector(0,-5);
 	private Vector acceleration(PhysicsObject o, double timeStep){
 		return gravity;
 	}

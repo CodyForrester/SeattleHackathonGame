@@ -39,8 +39,8 @@ public class Controller implements Runnable {
 	private Vector cameraPosition;
 	private double cameraDistance;
 	
-	private org.lwjgl.input.Controller Player1;
-	private org.lwjgl.input.Controller Player2;
+	public org.lwjgl.input.Controller Player1;
+	public org.lwjgl.input.Controller Player2;
 	
 	private float FOV;
 
@@ -73,6 +73,8 @@ public class Controller implements Runnable {
 			/*
 			 * Camera Controls
 			 */
+			model.player1.setX(Player1.getXAxisValue());
+			model.player1.setY(Player1.getYAxisValue());
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
