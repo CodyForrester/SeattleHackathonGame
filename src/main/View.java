@@ -31,7 +31,7 @@ public class View implements Runnable {
 	title = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/title.png", "PNG"),
 	controls = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/controls.png", "PNG"),
 	player1win = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/player1win.png", "PNG"),
-	player2win = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/player1win.png", "PNG");
+	player2win = new RectTextureSprite2D(new Vector(0, 0), new Vector(0, 0), 0, "assets/textures/player2win.png", "PNG");
 
 	public View(int width, int height) {
 		windowWidth = width;
@@ -60,7 +60,7 @@ public class View implements Runnable {
 		try {
 
 			Display.setDisplayMode(Display.getDesktopDisplayMode());
-			Display.setFullscreen(true);
+			//Display.setFullscreen(true);
 			Display.setVSyncEnabled(true);
 			Display.setTitle(TITLE);
 			Display.create();
@@ -84,13 +84,14 @@ public class View implements Runnable {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1f);
-			// GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
 			GL11.glClearColor(0.0f, 0.0f, 0.0f, 1f);
 		}
 
 		try {
-			while (!(Display.isCloseRequested() || Keyboard.isKeyDown(Keyboard.KEY_Q))) {
+			int seconds = 120;
+			while ( !(Display.isCloseRequested() || Keyboard.isKeyDown(Keyboard.KEY_Q))) {
 				// Don't eat everything!!!
 				try {
 					Thread.sleep(16);
@@ -180,11 +181,26 @@ public class View implements Runnable {
 					GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
 					
 					// BULLET COUNT
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+					
 					GL11.glColor3f(1f, 1f, 1f);
 					
-					Text.drawString("Bullets: ", 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.LEFT, Text.VerticalAlignment.TOP);
-					Text.drawString("Bullets: ", windowWidth - 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.RIGHT, Text.VerticalAlignment.TOP);
-					
+					Text.drawString("Bullets: " + model.player1.getAmmo(), 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.LEFT, Text.VerticalAlignment.TOP);
+					Text.drawString("Bullets: " + model.player2.getAmmo(), windowWidth - 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.RIGHT, Text.VerticalAlignment.TOP);
+					seconds = +(int)Math.floor(120-(System.currentTimeMillis() - controller.startTime)/1000);
+					if( seconds == 0 ){
+						if( model.player1.getKillCount() > model.player2.getKillCount() ){
+							screenState = ScreenState.PLAYER1WIN;
+						} else if( model.player1.getKillCount() < model.player2.getKillCount() ){
+							screenState = ScreenState.PLAYER2WIN;
+						} else {
+							model.player1.setAmmo(99);
+							model.player2.setAmmo(99);
+							controller.startTime += 60000;
+						}
+					}
+					Text.drawString("Time: "+seconds, windowWidth/2, 10, Text.Size.LARGE, Text.HorizontalAlignment.CENTER, Text.VerticalAlignment.TOP);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
 				} else {
 					setDylanCompatibleUICamera();
 					if (screenState == ScreenState.TITLE) {

@@ -50,6 +50,7 @@ public class Model implements Runnable{
 	public VerletIntegrator physics;
 	public List<PhysicsObject> thingsToAdd;
 	public List<PhysicsObject> thingsToRemove;
+	public double time;
 	
 	public Model() {
 		drawableObjects = Collections.synchronizedList(new ArrayList<Drawable>());
@@ -76,6 +77,9 @@ public class Model implements Runnable{
 		Player.player2Gun = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGun.png", "PNG");
 		Player.player1GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CatGunDown.png", "PNG");
 		Player.player2GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGunDown.png", "PNG");
+		Player.player1Kick = new RectTextureSprite2D(new Vector(), new Vector(21, 33), 0, "assets/textures/CatKick.png", "PNG");
+		Player.player2Kick = new RectTextureSprite2D(new Vector(), new Vector(19, 31), 0, "assets/textures/CrocKick.png", "PNG");
+
 		Player.crownSprite = new RectTextureSprite2D(new Vector(), new Vector(15, 11), 0, "assets/textures/crown.png", "PNG");
 		
 		Player.player1Jet0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack0.png", "PNG");
@@ -145,17 +149,16 @@ public class Model implements Runnable{
 		player1.setModel(this);
 		physics.movingObjects.add(player1);
 		timedObjects.add(player1);
-		
 		drawableObjects.add(player2);
 		player2.setController(player2Controller);
 		player2.setModel(this);
 		physics.movingObjects.add(player2);
 		timedObjects.add(player2);
 		
-		TreasureChest chest = new TreasureChest("assault", new Vector(0, -190));
+		TreasureChest chest = new TreasureChest("assault", new Vector(-100,-120));
 		TreasureChest.chestSpriteClosed  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestClosed.png", "PNG");
 		TreasureChest.chestSpriteOpen  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestOpen.png", "PNG");
-		
+		timedObjects.add(chest);
 		drawableObjects.add(chest);
 		physics.staticObjects.add(chest);
 		

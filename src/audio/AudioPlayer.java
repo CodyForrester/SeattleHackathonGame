@@ -17,11 +17,13 @@ public class AudioPlayer {
 	public static MultipleSound SHOOT;
 	public static SingleSound MUSIC;
 	public static IndexedSourceSound JETPACK;
+	public static MultipleSound PUNCH;
 	
 	public static void start(){
 		init();
-		SHOOT = new MultipleSound("Sounds/LASERHIT.wav", 5);
+		SHOOT = new MultipleSound("Sounds/psibolt.wav", 5);
 		MUSIC = new SingleSound("Sounds/music1.wav", true);
+		PUNCH = new MultipleSound("Sounds/SPOOGHIT.wav", 5);
 		// JETPACK = new IndexedSourceSound("Sounds/*JETPACK FILE HERE*.wav", 2, true);
 	}
 	

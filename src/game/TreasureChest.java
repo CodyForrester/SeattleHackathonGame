@@ -5,9 +5,11 @@ import render.ColorSprite2D;
 import render.RectTextureSprite2D;
 
 import java.awt.*;
+
+import main.Model;
 import util.PhysicsObject;
 
-public class TreasureChest implements render.Drawable, util.RectanglePositioned {
+public class TreasureChest implements render.Drawable, util.RectanglePositioned, Timed {
 	private boolean open;
 	private String item;
 	private Vector currentPosition;
@@ -66,6 +68,14 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 	
 	public boolean isOpen(){
 		return open;
+	}
+
+	@Override
+	public void step(double timeStep) {
+		if( Model.random.nextInt(10000) == 13 ){
+			open = false;
+		}
+		
 	}
 
 }

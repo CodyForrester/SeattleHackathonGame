@@ -33,6 +33,8 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private int ammo;
 	private boolean wasPunch;
 	public boolean hasUpperHand;
+	public int killStreak;
+	private int kick;
 	
 	//Sprites:
 	public static RectTextureSprite2D crownSprite;
@@ -49,7 +51,9 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	public static RectTextureSprite2D player2Gun;
 	public static RectTextureSprite2D player1GunDown;
 	public static RectTextureSprite2D player2GunDown;
-
+	public static RectTextureSprite2D player1Kick;
+	public static RectTextureSprite2D player2Kick;
+	
 	public static RectTextureSprite2D player1Walk0;
 	public static RectTextureSprite2D player1Walk1;
 	public static RectTextureSprite2D player1Walk2;
@@ -84,7 +88,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		playerSize = new Vector(22, 31);
 		timer = 0;
 		directionFacing = 1;
-		ammo = 2;
+		ammo = 5;
 	}
 	
 
@@ -133,6 +137,8 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		if( isOnWall && isOnGround ) isOnWall = false;
 		getDirectionFacing();
 		lastFired--;
+		kick--;
+		if( kick < 0 ) kick = 0;
 		if( controller.getTrigger() ){
 			System.out.println(ammo);
 			if( ammo > 0 ){
@@ -152,7 +158,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				model.thingsToAdd.add(p);
 				wasPunch = false;
 			} else {
-				//TODO: Punch
 				lastFired = 100;
 				wasPunch = true;
 				if( this == model.player1 ){
@@ -180,7 +185,15 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				timer = 200;
 			}
 		} else {
-			if( timer > 0 && controller.getButtonJetpack() ){
+			if( controller.getR() && kick ==0 ){
+				kick = 200;
+				oldPosition.addInPlace(new Vector(directionFacing*-.2, 0));
+				if( this == model.player1 ){
+					currentSprite = player1Kick;
+				} else {
+					currentSprite = player2Kick;
+				}
+			} else if( timer > 0 && controller.getButtonJetpack() ){
 				this.oldPosition.y -= .000025*timer;
 			} else {
 				timer = 0;
@@ -255,11 +268,11 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 			} else {
 				currentSprite = player2GunDown;
 			}
-		} else if( isOnWall && false ){
+		} else if( kick > 0 ){
 			if( this == model.player1 ){
-				currentSprite = player1WallJump;
+				currentSprite = player1Kick;
 			} else {
-				currentSprite = player2WallJump;
+				currentSprite = player2Kick;
 			}
 		} else {
 			if( this == model.player1 ){
@@ -302,7 +315,8 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public void setIsOnWall(boolean value){
-		isOnWall = value;
+		//isOnWall = value;
+		isOnWall = false;
 	}
 	
 	public boolean removeMe(){
@@ -333,14 +347,27 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public Vector collide(PhysicsObject b){
-		if( b instanceof Player && this == model.player1 ){
+		if( b instanceof Player ){
 			Player a = (Player)b;
 			Vector aPosition = a.getPosition();
 			Vector aSize = a.getSize();
 			if( ((this.currentPosition.y >= aPosition.y && this.currentPosition.y <= aPosition.y + aSize.y) || (this.currentPosition.y + playerSize.y >= aPosition.y && this.currentPosition.y + playerSize.y <= aPosition.y + aSize.y)) &&
 				((this.currentPosition.x >= aPosition.x && this.currentPosition.x <= aPosition.x + aSize.x) || (this.currentPosition.x + playerSize.x >= aPosition.x && this.currentPosition.x + playerSize.x <= aPosition.x + aSize.x))) {
 				//They overlap
-				System.out.println("Overlap");
+				//System.out.println("Overlap");
+				if( kick > 0 && a.kick == 0 ) {
+					if( model.player1 == this ){
+						model.player2.removeKill();
+						Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
+						model.player2.getOldPosition().setInPlace(newPosition);
+						model.player2.getPosition().setInPlace(newPosition);
+					} else {
+						model.player1.removeKill();
+						Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
+						model.player1.getOldPosition().setInPlace(newPosition);
+						model.player1.getPosition().setInPlace(newPosition);
+					}
+				}
 				model.player1.hasUpperHand = true;
 				model.player2.hasUpperHand = true;
 			} else {
@@ -369,6 +396,12 @@ public void addKill(){
 //removes 1 from the player's score
 //can be used if the player suicides
 public void removeKill(){
+	killStreak = 0;
+	if( this == model.player1 ){
+		model.player2.killStreak++;
+	} else {
+		model.player1.killStreak++;
+	}
 	killCount--;
 }
 }

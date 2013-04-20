@@ -1,5 +1,7 @@
 package main;
 
+import main.View.ScreenState;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -12,7 +14,7 @@ import util.Vector;
 import util.Vector3D;
 
 public class Controller implements Runnable {
-
+	public View view;
 	private enum N64Controller{
 		CUp (0),
 		CRight (1),
@@ -34,7 +36,7 @@ public class Controller implements Runnable {
 			return value;
 		}
 	}
-
+	public long startTime;
 	private boolean gameRunning = true;
 	private Model model;
 
@@ -83,8 +85,14 @@ public class Controller implements Runnable {
 					Player1.getYAxisValue() != -1 &&
 					Player2.getYAxisValue() != -1;
 		}
-
-
+		System.out.println("Here.");
+		while( view.screenState == ScreenState.TITLE ){
+			while(Controllers.next()){
+				System.out.println("Here here.");
+				view.screenState = ScreenState.GAME;
+			}
+		}
+		startTime = System.currentTimeMillis();
 		while (gameRunning) {
 
 			while (Controllers.next()) {
@@ -96,7 +104,11 @@ public class Controller implements Runnable {
 						} else if (Controllers.getEventControlIndex() == 8 && Player1.isButtonPressed(8)) {
 							//p1 trigger
 							model.player1Controller.trigger(true);
-							AudioPlayer.play(AudioPlayer.SHOOT);
+							if( model.player1.getAmmo() == 0 ){
+								AudioPlayer.play(AudioPlayer.PUNCH);
+							} else {
+								AudioPlayer.play(AudioPlayer.SHOOT);
+							}
 						}
 					} else if (Controllers.getEventSource() == Player2) {
 						if (Controllers.getEventControlIndex() == 0 && Player2.isButtonPressed(0)) {
@@ -105,7 +117,11 @@ public class Controller implements Runnable {
 						} else if (Controllers.getEventControlIndex() == 8 && Player2.isButtonPressed(8)) {
 							//p2 trigger
 							model.player2Controller.trigger(true);
-							AudioPlayer.play(AudioPlayer.SHOOT);
+							if( model.player2.getAmmo() == 0 ){
+								AudioPlayer.play(AudioPlayer.PUNCH);
+							} else {
+								AudioPlayer.play(AudioPlayer.SHOOT);
+							}
 						}
 					}
 				}
@@ -118,11 +134,13 @@ public class Controller implements Runnable {
 			model.player1Controller.setY(Player1.getYAxisValue());
 			model.player1Controller.setButtonJump(Player1.isButtonPressed(N64Controller.B.getID()));
 			model.player1Controller.setButtonJetpack(Player1.isButtonPressed(N64Controller.A.getID()));
+			model.player1Controller.setR(Player1.isButtonPressed(N64Controller.R.getID()));
 
 			model.player2Controller.setX(Player2.getXAxisValue());
 			model.player2Controller.setY(Player2.getYAxisValue());
 			model.player2Controller.setButtonJump(Player2.isButtonPressed(N64Controller.B.getID()));
 			model.player2Controller.setButtonJetpack(Player2.isButtonPressed(N64Controller.A.getID()));
+			model.player2Controller.setR(Player2.isButtonPressed(N64Controller.R.getID()));
 
 			//cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;

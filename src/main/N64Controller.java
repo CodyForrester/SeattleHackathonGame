@@ -6,6 +6,7 @@ public class N64Controller{
 	private boolean button5;
 	private boolean button4;
 	private boolean trigger;
+	private boolean rButton;
 	
 	public double getX(){
 		return x;
@@ -25,6 +26,14 @@ public class N64Controller{
 	
 	public void setX(double x){
 		this.x = x;
+	}
+	
+	public void setR(boolean v){
+		rButton = v;
+	}
+	
+	public boolean getR(){
+		return rButton;
 	}
 	
 	public void setY(double y){
