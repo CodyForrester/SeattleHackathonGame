@@ -1,4 +1,5 @@
-Ant-Wars
-========
+Seattle Hackathon Game
+==================
 
-An RTS game in which the player controls the workings of an ant colony.
+
+Stuff.
