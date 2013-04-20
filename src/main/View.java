@@ -84,6 +84,8 @@ public class View implements Runnable {
 					e.printStackTrace();
 				}
 
+				GL11.glPushMatrix();
+				
 				setCamera();
 
 				/*
@@ -93,6 +95,8 @@ public class View implements Runnable {
 					for (Drawable drawable : model.drawableObjects)
 						drawable.draw();
 				}
+				
+				GL11.glPopMatrix();
 
 				/*
 				 * End draw code
