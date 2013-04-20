@@ -28,8 +28,15 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private int directionFacing;
 	private boolean facingDown;
 	public RectTextureSprite2D currentSprite;
+	private int killCount;
+	public int jetpackFuel;
+	private int ammo;
 	
 	//Sprites:
+	public static RectTextureSprite2D crownSprite;
+	
+	public static RectTextureSprite2D player1Punch;
+	public static RectTextureSprite2D player2Punch;
 	public static RectTextureSprite2D player1Stand;
 	public static RectTextureSprite2D player2Stand;
 	public static RectTextureSprite2D player1Jump;
@@ -75,6 +82,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		playerSize = new Vector(22, 31);
 		timer = 0;
 		directionFacing = 1;
+		ammo = 2;
 	}
 	
 
@@ -98,57 +106,70 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		
 		if( isOnGround ){
 			accel.x = controller.getX()*3;
-		} else if ( controller.getButtonJump() ){
+		} else if ( controller.getButtonJump() && jetpackFuel > 0 ){
 			accel.x = controller.getX()*12;
 		} else {
 			accel.x = controller.getX()*1;
 		}
-		if( controller.getButtonJump() ){
+		if( controller.getButtonJump() && jetpackFuel > 0 ){
 			accel.y = 10;
 		}
 		return accel;
 	}
 	
 	public void draw(){
+		if( getKillCount() > model.player1.getKillCount() || getKillCount() > model.player2.getKillCount() ){
+			crownSprite.setPosition(currentPosition.plus(new Vector(1,34)));
+			crownSprite.draw();
+		}
 		currentSprite.setPosition(currentPosition);
 		currentSprite.draw(directionFacing==1);
 	}
 	
 	public void step(double timestep){
+		if( jetpackFuel < 0 ) jetpackFuel = 0;
+		if( isOnWall && isOnGround ) isOnWall = false;
 		getDirectionFacing();
 		lastFired--;
 		if( controller.getTrigger() ){
-			System.out.println("Fire!");
-			Projectile p = new Projectile("bullet", currentPosition.plus(new Vector(playerSize.x /2 + (facingDown?0:directionFacing*7.5), playerSize.y / 2)));
-			if( facingDown ){
-				p.setOldPosition(p.getPosition().minus(new Vector(0,-model.physics.PLAYER_MAX_X_SPEED*3)));
-				p.getSize().x = 2;
-				p.getSize().y = 15;
+			System.out.println(ammo);
+			if( ammo > 0 ){
+				ammo--;
+				Projectile p = new Projectile("bullet", currentPosition.plus(new Vector(playerSize.x /2 + (facingDown?0:directionFacing*7.5), playerSize.y / 2)));
+				if( facingDown ){
+					p.setOldPosition(p.getPosition().minus(new Vector(0,-model.physics.PLAYER_MAX_X_SPEED*3)));
+					p.getSize().x = 2;
+					p.getSize().y = 15;
+				} else {
+					lastFired = 100;
+					p.setOldPosition(p.getPosition().minus(new Vector(directionFacing*model.physics.PLAYER_MAX_X_SPEED*3, 0)));
+				}
+				p.myTarget = (this==model.player1)?model.player2:model.player1;
+				p.setDirection(directionFacing);
+				model.physics.movingObjects.add(p);
+				model.thingsToAdd.add(p);
 			} else {
-				lastFired = 100;
-				p.setOldPosition(p.getPosition().minus(new Vector(directionFacing*model.physics.PLAYER_MAX_X_SPEED*3, 0)));
+				//TODO: Punch
 			}
-			p.myTarget = (this==model.player1)?model.player2:model.player1;
-			p.setDirection(directionFacing);
-			model.physics.movingObjects.add(p);
-			model.thingsToAdd.add(p);
 		}
 		if (isOnGround()) {
+			if( jetpackFuel < 400 ) jetpackFuel++;
+			
 			if( controller.getButtonJetpack() ){
 				this.oldPosition.y -= .2;
 				timer = 200;
 			}
-		} else if( isOnWall ) {
-			this.directionFacing = isLeftWall?1:-1;
-			oldPosition.addInPlace(new Vector(0, (currentPosition.y - oldPosition.y)*.01)); 
-			if( controller.getButtonJetpack() ){
-				this.oldPosition.y = currentPosition.y - .2;
-				this.oldPosition.x += .1 * -directionFacing;
+		} else if( isOnWall && false ) {
+			//this.directionFacing = isLeftWall?1:-1;
+			//oldPosition.addInPlace(new Vector(0, (currentPosition.y - oldPosition.y)*.01)); 
+			/*if( controller.getButtonJetpack() && false ){
+				this.oldPosition.y = currentPosition.y - .1;
+				this.oldPosition.x += .05 * -directionFacing;
 				timer = 200;
-			}
+			}*/
 		}
 		else {
-			if( timer > 0 && controller.getButtonJetpack() && !isOnWall ){
+			if( timer > 0 && controller.getButtonJetpack() ){
 				this.oldPosition.y -= .000025*timer;
 			} else {
 				timer = 0;
@@ -156,6 +177,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 			timer--;
 		}
 		if ( controller.getButtonJump() ) {
+			jetpackFuel--;
 			if( this == model.player1 ){
 				int r = Model.random.nextInt(4);
 				if( r == 0 ){
@@ -215,7 +237,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 			} else {
 				currentSprite = player2GunDown;
 			}
-		} else if( isOnWall ){
+		} else if( isOnWall && false ){
 			if( this == model.player1 ){
 				currentSprite = player1WallJump;
 			} else {
@@ -228,6 +250,14 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				currentSprite = player2Jump;
 			}
 		}
+	}
+	
+	public int getAmmo(){
+		return ammo;
+	}
+	
+	public void setAmmo(int value){
+		ammo = value;
 	}
 	
 	public void setController(N64Controller controller){
@@ -255,7 +285,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	
 	public void setIsOnWall(boolean value){
 		isOnWall = value;
-		if( value ) isOnGround = false;
 	}
 	
 	public boolean removeMe(){
@@ -293,40 +322,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	public void setIsLeftWall(boolean value){
 		isLeftWall = value;
 	}
-}
-
-/*	//pre: player has just been killed
-//post: removes all items from the player's inventory
-//      and respawns player at a new random location in the map
-public void respawn(){
-	items.clear();
-	Random r = new Random();
-	position =  new Vector(r.nextInt(mapWidth), r.nextInt(mapHeight));
-}
-
-
-//pre: passed a string containing item name
-//post: adds item to player's arsenal
-//     or does nothing if player already has weapon
-public void addItem(String item){
-	if (!items.contains(item)){
-		items.add(item);
-	}
-}
-
-//pre: passed a String of what item the user wants to switch to
-//post: switches to that weapon
-public void switchItem(String item){
-	if (!items.contains(item)){
-		throw new IllegalArgumentException("Player does not have that item");
-	}
-	currentItem = item;
-}
-
-//returns what weapon the player is currently holding
-public String currentItem(){
-	return currentItem;
-}
 
 //returns current number of kills this player has
 public int getKillCount(){
@@ -343,4 +338,4 @@ public void addKill(){
 public void removeKill(){
 	killCount--;
 }
-*/
+}

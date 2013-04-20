@@ -138,7 +138,7 @@ public class Controller implements Runnable {
 			topRight.subtractInPlace(bottomLeft);
 			Vector cameraGoal = bottomLeft.plus(topRight.scale(0.5));
 			cameraPosition.addInPlace(cameraGoal.minus(cameraPosition).scale(.0000001));
-			double goal = topRight.mag() * 1.5;
+			double goal = topRight.mag() * 1.2;
 			
 			cameraDistance += (goal-cameraDistance)/10000000;
 			if (cameraDistance < 300)

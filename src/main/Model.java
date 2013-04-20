@@ -64,6 +64,8 @@ public class Model implements Runnable{
 		drawableObjects.add(new RectTextureSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 0, "assets/textures/Stage1.png", "PNG"));
 		
 		//Player Sprites
+		Player.player1Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatPunch.png", "PNG");
+		Player.player2Punch = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocPunch.png", "PNG");
 		Player.player1Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatStanding.png", "PNG");
 		Player.player2Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocStanding.png", "PNG");
 		Player.player1Jump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJump.png", "PNG");
@@ -74,6 +76,7 @@ public class Model implements Runnable{
 		Player.player2Gun = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGun.png", "PNG");
 		Player.player1GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CatGunDown.png", "PNG");
 		Player.player2GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGunDown.png", "PNG");
+		Player.crownSprite = new RectTextureSprite2D(new Vector(), new Vector(15, 11), 0, "assets/textures/crown.png", "PNG");
 		
 		Player.player1Jet0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack0.png", "PNG");
 		Player.player1Jet1 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack1.png", "PNG");

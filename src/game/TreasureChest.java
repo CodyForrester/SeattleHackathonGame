@@ -49,14 +49,19 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 	}
 	
 	public Vector collide(PhysicsObject a){
-		Vector aPosition = a.getPosition();
-		Vector aOldPosition = a.getOldPosition();
-		Vector aSize = a.getSize();
-		if (a instanceof Player && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
-			open = true;
-			return a.getPosition();
+		if( !open ){
+			Vector aPosition = a.getPosition();
+			Vector aOldPosition = a.getOldPosition();
+			Vector aSize = a.getSize();
+			if (a instanceof Player && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
+				open = true;
+				((Player)a).setAmmo(((Player)a).getAmmo()+5);
+				return a.getPosition();
+			}
+			return null;
+		} else {
+			return null;
 		}
-		return null;
 	}
 	
 	public boolean isOpen(){

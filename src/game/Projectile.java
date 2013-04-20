@@ -85,6 +85,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 		Vector aSize = a.getSize();
 		if (a == myTarget && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
 			//projectile hit a player, do something here
+			((Player)a).removeKill();
 			Vector newPosition = new Vector((Model.random.nextInt(2)*2-1)*500, -400);
 			a.getOldPosition().setInPlace(newPosition);
 			return newPosition;
