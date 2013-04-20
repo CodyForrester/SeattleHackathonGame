@@ -11,6 +11,7 @@ import org.lwjgl.util.glu.GLU;
 
 import render.Drawable;
 import render.RectTextureSprite2D;
+import render.Text;
 import util.PhysicsObject;
 import util.Vector;
 
@@ -68,6 +69,9 @@ public class View implements Runnable {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		
+		// MASSIVE HACK, PLEASE KEEP MOVING
+		Text.loadSprites();
 
 		/*
 		 * Initialize LWJGL and OpenGL
@@ -174,7 +178,13 @@ public class View implements Runnable {
 					GL11.glEnd();
 
 					GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
-
+					
+					// BULLET COUNT
+					GL11.glColor3f(1f, 1f, 1f);
+					
+					Text.drawString("Bullets: ", 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.LEFT, Text.VerticalAlignment.TOP);
+					Text.drawString("Bullets: ", windowWidth - 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.RIGHT, Text.VerticalAlignment.TOP);
+					
 				} else {
 					setDylanCompatibleUICamera();
 					if (screenState == ScreenState.TITLE) {
