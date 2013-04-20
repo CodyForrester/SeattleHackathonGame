@@ -36,21 +36,21 @@ public class RectTextureSprite2D extends Sprite2D{
 		GL11.glBegin(GL11.GL_QUADS);
 		{
 			GL11.glNormal3d(0, 0, 1);
-
+			
 			if (!flipped)
-				GL11.glTexCoord2d(0, 1);
+				GL11.glTexCoord2d(0, texture.getHeight());
 			else
-				GL11.glTexCoord2d(1, 1);
+				GL11.glTexCoord2d(texture.getWidth(), texture.getHeight());
 			GL11.glVertex3d(0, 0, 0);
 
 			if (!flipped)
-				GL11.glTexCoord2d(1, 1);
+				GL11.glTexCoord2d(texture.getWidth(), texture.getHeight());
 			else
-				GL11.glTexCoord2d(0, 1);
+				GL11.glTexCoord2d(0, texture.getHeight());
 			GL11.glVertex3d(dimension.x, 0, 0);
 
 			if (!flipped)
-				GL11.glTexCoord2d(1, 0);
+				GL11.glTexCoord2d(texture.getWidth(), 0);
 			else
 				GL11.glTexCoord2d(0, 0);
 			GL11.glVertex3d(dimension.x, dimension.y, 0);
@@ -58,7 +58,7 @@ public class RectTextureSprite2D extends Sprite2D{
 			if (!flipped)
 				GL11.glTexCoord2d(0, 0);
 			else
-				GL11.glTexCoord2d(1, 0);
+				GL11.glTexCoord2d(texture.getWidth(), 0);
 			GL11.glVertex3d(0, dimension.y, 0);
 		}
 		GL11.glEnd();

@@ -83,8 +83,6 @@ public class View implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				GL11.glPushMatrix();
 				
 				setCamera();
 
@@ -96,27 +94,10 @@ public class View implements Runnable {
 						drawable.draw();
 				}
 				
-				GL11.glPopMatrix();
 
 				/*
 				 * End draw code
 				 */
-
-				int padding = 10;
-				int width = 200;
-				int height = 50;
-				
-				GL11.glColor3f(1f,1f,1f);
-				GL11.glBegin(GL11.GL_QUADS);
-				{
-					GL11.glNormal3d(0, 0, 1);
-					GL11.glVertex2f(padding,padding);
-					GL11.glVertex2f(padding+width,padding);
-					GL11.glVertex2f(padding+width,padding+height);
-					GL11.glVertex2f(padding,padding+height);
-				}
-				GL11.glEnd();
-
 				Display.update();
 			}
 		} catch (Exception e) {
