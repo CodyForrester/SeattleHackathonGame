@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import render.ColorSprite2D;
 import java.awt.*;
+import main.N64Controller;
 
 public class Player implements util.PhysicsObject, render.Drawable {
 	private Vector currentPosition;
 	private Vector oldPosition;
 	private String currentItem;
 	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
+	private N64Controller controller;
 	
 	private int killCount;
 	private List<String> items;
@@ -43,12 +45,18 @@ public class Player implements util.PhysicsObject, render.Drawable {
 		return currentPosition;
 	}
 	
+	public Vector getAcceleration(){
+		return new Vector(controller.getX(), 0);
+	}
 	
 	public void draw(){
 		playersprite.setPosition(currentPosition);
 		playersprite.draw();
 	}
 	
+	public void setController(N64Controller controller){
+		this.controller = controller;
+	}
 	//return the player's size in the form (width, height)
 	public Vector getSize(){
 		return new Vector(20, 32);

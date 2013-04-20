@@ -3,6 +3,7 @@ package game;
 import util.Vector;
 import render.ColorSprite2D;
 import java.awt.*;
+import util.PhysicsObject;
 
 public class TreasureChest implements render.Drawable, util.RectanglePositioned {
 	private String item;
@@ -29,6 +30,10 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 	
 	public String getType(){
 		return item;
+	}
+	
+	public void collide(PhysicsObject a){
+		
 	}
 
 }
