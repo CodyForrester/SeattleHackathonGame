@@ -5,6 +5,7 @@ public class N64Controller{
 	private double y;
 	private boolean button5;
 	private boolean button4;
+	private boolean trigger;
 	
 	public double getX(){
 		return x;
@@ -36,5 +37,17 @@ public class N64Controller{
 	
 	public void setButton4(boolean v){
 		button4 = v;
+	}
+	
+	public void trigger(boolean v){
+		trigger = true;
+	}
+	
+	public boolean getTrigger(){
+		if( trigger ) {
+			trigger = false;
+			return trigger;
+		}
+		return false;
 	}
 }

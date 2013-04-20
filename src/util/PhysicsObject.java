@@ -6,4 +6,7 @@ public interface PhysicsObject extends RectanglePositioned{
 	public Vector getAcceleration();
 	public boolean isOnGround();
 	public void setIsOnGround(boolean value);
+	public boolean isOnWall();
+	public void setIsOnWall(boolean value);
+	public boolean removeMe();
 }

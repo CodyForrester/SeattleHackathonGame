@@ -14,15 +14,15 @@ import org.lwjgl.util.WaveData;
 public class AudioPlayer {
 
 	// SUPER HACKY
-	public static Sound SHOOT;
-	public static Sound MUSIC;
+	public static MultipleSound SHOOT;
+	public static SingleSound MUSIC;
+	public static IndexedSourceSound JETPACK;
 	
 	public static void start(){
 		init();
-		SHOOT = new Sound("Sounds/LASRHIT2.wav", 5);
-		MUSIC = new Sound("Sounds/music.wav", 10);
-		// tee hee
-		//play(SHOOT);
+		SHOOT = new MultipleSound("Sounds/LASRHIT2.wav", 5);
+		MUSIC = new SingleSound("Sounds/music.wav", true);
+		// JETPACK = new IndexedSourceSound("Sounds/*JETPACK FILE HERE*.wav", 2, true);
 	}
 	
 	/** Position of the source sound. */
@@ -42,7 +42,7 @@ public class AudioPlayer {
 
 	public static List<int[]> loadedSounds = new LinkedList<int[]>();
 	
-	public static int[] loadSource(String filepath, int maxSources) {
+	public static int[] loadSource(String filepath, int maxSources, boolean looping) {
 		// Load wav data into a buffer.
 		//AL10.alGenBuffers(buffer);
 		int buffer = AL10.alGenBuffers();
@@ -90,6 +90,8 @@ public class AudioPlayer {
 		AL10.alSourcef(sources[i], AL10.AL_GAIN,     1.0f     );
 		AL10.alSource (sources[i], AL10.AL_POSITION, sourcePos);
 		AL10.alSource (sources[i], AL10.AL_VELOCITY, sourceVel);
+		if (looping)
+			AL10.alSourcei(sources[i], AL10.AL_LOOPING,  AL10.AL_TRUE );
 
 		}
 		
@@ -133,4 +135,16 @@ public class AudioPlayer {
 		AL10.alSourcePause(sound.getSource());
 	}
 
+	public static void playIndexedSourceSound(IndexedSourceSound sound, int index) {
+		AL10.alSourcePlay(sound.getSource(index));
+	}
+
+	public static void stopIndexedSourceSound(IndexedSourceSound sound, int index) {
+		AL10.alSourceStop(sound.getSource(index));
+	}
+
+	public static void pauseIndexedSourceSound(IndexedSourceSound sound, int index) {
+		AL10.alSourcePause(sound.getSource(index));
+	}
+	
 }

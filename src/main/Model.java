@@ -62,7 +62,8 @@ public class Model implements Runnable{
 		physics.setModel(this);
 		player1 = new Player(new Vector(0,0));
 		player2 = new Player(new Vector(80,0));
-		Platform plat = new Platform(new Vector(-50, -200), new Vector(100,10));
+		Platform plat = new Platform(new Vector(MIN_X, MIN_Y), new Vector(MAX_X - MIN_X,10));
+		
 		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
 		
 		drawableObjects.add(player1);
