@@ -60,7 +60,7 @@ public class View implements Runnable {
 		try {
 
 			Display.setDisplayMode(Display.getDesktopDisplayMode());
-			//Display.setFullscreen(true);
+			Display.setFullscreen(true);
 			Display.setVSyncEnabled(true);
 			Display.setTitle(TITLE);
 			Display.create();

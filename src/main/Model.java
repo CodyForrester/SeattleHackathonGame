@@ -155,7 +155,7 @@ public class Model implements Runnable{
 		physics.movingObjects.add(player2);
 		timedObjects.add(player2);
 		
-		TreasureChest chest = new TreasureChest("assault", new Vector(-100,-120));
+		TreasureChest chest = new TreasureChest("assault", new Vector(-300,-220));
 		TreasureChest.chestSpriteClosed  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestClosed.png", "PNG");
 		TreasureChest.chestSpriteOpen  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestOpen.png", "PNG");
 		timedObjects.add(chest);
