@@ -58,6 +58,11 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	
 	public void setIsOnWall(boolean value){
 		isOnWall = value;
+			
+	}
+	
+	public boolean removeMe(){
+		return isOnWall;
 	}
 	
 	public Vector getSize(){

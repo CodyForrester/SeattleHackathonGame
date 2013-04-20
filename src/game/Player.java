@@ -118,6 +118,9 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		isOnWall = value;
 	}
 	
+	public boolean removeMe(){
+		return false;
+	}
 	public Vector collide(PhysicsObject a){
 		return null;
 	}
