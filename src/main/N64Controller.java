@@ -15,11 +15,11 @@ public class N64Controller{
 		return y;
 	}
 	
-	public boolean getButton5(){
+	public boolean getButtonJump(){
 		return button5;
 	}
 	
-	public boolean getButton4(){
+	public boolean getButtonJetpack(){
 		return button4;
 	}
 	
@@ -31,11 +31,11 @@ public class N64Controller{
 		this.y = y;
 	}
 	
-	public void setButton5(boolean v){
+	public void setButtonJump(boolean v){
 		button5 = v;
 	}
 	
-	public void setButton4(boolean v){
+	public void setButtonJetpack(boolean v){
 		button4 = v;
 	}
 	

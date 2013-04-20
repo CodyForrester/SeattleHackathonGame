@@ -49,7 +49,7 @@ public class View implements Runnable {
 
 			Display.setDisplayMode(Display.getDesktopDisplayMode());
 			Display.setFullscreen(true);
-			Display.setVSyncEnabled(true);
+			//Display.setVSyncEnabled(true);
 			Display.setTitle(TITLE);
 			Display.create();
 		} catch (LWJGLException e) {

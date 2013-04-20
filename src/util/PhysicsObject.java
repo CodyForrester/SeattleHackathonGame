@@ -8,5 +8,6 @@ public interface PhysicsObject extends RectanglePositioned{
 	public void setIsOnGround(boolean value);
 	public boolean isOnWall();
 	public void setIsOnWall(boolean value);
+	public void setIsLeftWall(boolean value);
 	public boolean removeMe();
 }

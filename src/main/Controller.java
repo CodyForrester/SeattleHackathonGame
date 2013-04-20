@@ -116,13 +116,13 @@ public class Controller implements Runnable {
 			 */
 			model.player1Controller.setX(Player1.getXAxisValue());
 			model.player1Controller.setY(Player1.getYAxisValue());
-			model.player1Controller.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
-			model.player1Controller.setButton4(Player1.isButtonPressed(N64Controller.B.getID()));
+			model.player1Controller.setButtonJump(Player1.isButtonPressed(N64Controller.B.getID()));
+			model.player1Controller.setButtonJetpack(Player1.isButtonPressed(N64Controller.A.getID()));
 
 			model.player2Controller.setX(Player2.getXAxisValue());
 			model.player2Controller.setY(Player2.getYAxisValue());
-			model.player2Controller.setButton5(Player2.isButtonPressed(N64Controller.A.getID()));
-			model.player2Controller.setButton4(Player2.isButtonPressed(N64Controller.B.getID()));
+			model.player2Controller.setButtonJump(Player2.isButtonPressed(N64Controller.B.getID()));
+			model.player2Controller.setButtonJetpack(Player2.isButtonPressed(N64Controller.A.getID()));
 
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;

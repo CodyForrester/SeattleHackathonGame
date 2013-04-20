@@ -13,12 +13,13 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 	private Vector size;
 	private ColorSprite2D sprite = new ColorSprite2D(new Vector(), new Vector (5, 5), 0, Color.GREEN);
 	private boolean isOnWall;
+	private boolean isOnGround;
 	private int directionFacing;
 	
 	//pre: passed a legal String for type, and a starting position
 	public Projectile(String type, Vector starting){
 		this.type = type;
-		size = new Vector(5, 5);
+		size = new Vector(15, 2);
 		oldPosition = starting.minus(new Vector(5,0));
 		currentPosition = starting;
 	}
@@ -46,18 +47,22 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 	}
 	
 	public boolean isOnGround(){
-		return false;
+		return isOnGround;
 	}
 	
 	public void step(double v){
 	}
 	
 	public void setIsOnGround(boolean ground){
-		//do nothing
+		isOnGround = ground;
 	}
 	
 	public boolean isOnWall(){
 		return isOnWall;
+	}
+	
+	public void setIsLeftWall(boolean value){
+		//nothing
 	}
 	
 	public void setIsOnWall(boolean value){
@@ -65,7 +70,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 	}
 	
 	public boolean removeMe(){
-		return isOnWall;
+		return isOnWall || isOnGround;
 	}
 	
 	public Vector getSize(){

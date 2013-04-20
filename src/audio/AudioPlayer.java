@@ -20,7 +20,7 @@ public class AudioPlayer {
 	
 	public static void start(){
 		init();
-		SHOOT = new MultipleSound("Sounds/LASRHIT2.wav", 5);
+		SHOOT = new MultipleSound("Sounds/LASERHIT.wav", 5);
 		MUSIC = new SingleSound("Sounds/music1.wav", true);
 		// JETPACK = new IndexedSourceSound("Sounds/*JETPACK FILE HERE*.wav", 2, true);
 	}

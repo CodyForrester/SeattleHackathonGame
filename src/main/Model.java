@@ -7,6 +7,7 @@ import game.Platform;
 import game.Player;
 import game.Timed;
 import game.VerletIntegrator;
+import game.VerticalPlatform;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -61,6 +62,36 @@ public class Model implements Runnable{
 	
 	public void run() {
 		drawableObjects.add(new RectTextureSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 0, "assets/textures/Stage1.png", "PNG"));
+		
+		//Player Sprites
+		Player.player1Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatStanding.png", "PNG");
+		Player.player2Stand = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocStanding.png", "PNG");
+		Player.player1Jump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJump.png", "PNG");
+		Player.player2Jump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocJump.png", "PNG");
+		Player.player1WallJump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatWallJump.png", "PNG");
+		Player.player2WallJump = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocWallJump.png", "PNG");
+		Player.player1Gun = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CatGun.png", "PNG");
+		Player.player2Gun = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGun.png", "PNG");
+		Player.player1GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CatGunDown.png", "PNG");
+		Player.player2GunDown = new RectTextureSprite2D(new Vector(), new Vector(25, 31), 0, "assets/textures/CrocGunDown.png", "PNG");
+		
+		Player.player1Jet0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack0.png", "PNG");
+		Player.player1Jet1 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack1.png", "PNG");
+		Player.player1Jet2 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack2.png", "PNG");
+		Player.player1Jet3 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatJetpack3.png", "PNG");
+		Player.player2Jet0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocJetpack0.png", "PNG");
+		Player.player2Jet1 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocJetpack1.png", "PNG");
+		Player.player2Jet2 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocJetpack2.png", "PNG");
+		Player.player2Jet3 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocJetpack3.png", "PNG");
+		
+		Player.player1Walk0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatWalking0.png", "PNG");
+		Player.player1Walk1 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatWalking1.png", "PNG");
+		Player.player1Walk2 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CatWalking2.png", "PNG");
+		Player.player2Walk0 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocWalk0.png", "PNG");
+		Player.player2Walk1 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocWalk1.png", "PNG");
+		Player.player2Walk2 = new RectTextureSprite2D(new Vector(), new Vector(22, 31), 0, "assets/textures/CrocWalk2.png", "PNG");
+		
+		
 		AudioPlayer.start();
 		physics = new VerletIntegrator();
 		physics.setModel(this);
@@ -68,7 +99,32 @@ public class Model implements Runnable{
 		player2 = new Player(new Vector(80,0));
 		Platform plat = new Platform(new Vector(MIN_X, MIN_Y), new Vector(MAX_X - MIN_X,10));
 		
-		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
+		Platform plat1 = new Platform(new Vector(-444,-222), new Vector(350,3));
+		physics.staticObjects.add(plat1);
+		Platform plat2 = new Platform(new Vector(-81,-181), new Vector(218,3));
+		physics.staticObjects.add(plat2);
+		Platform plat3 = new Platform(new Vector(120,-233), new Vector(213,3));
+		physics.staticObjects.add(plat3);
+		Platform plat4 = new Platform(new Vector(310,-149), new Vector(140,3));
+		physics.staticObjects.add(plat4);
+		Platform plat5 = new Platform(new Vector(-350,-113), new Vector(140,3));
+		physics.staticObjects.add(plat5);
+		Platform plat6 = new Platform(new Vector(-450,-22), new Vector(140,3));
+		physics.staticObjects.add(plat6);
+		Platform plat7 = new Platform(new Vector(153,-49), new Vector(176,3));
+		physics.staticObjects.add(plat7);
+		Platform plat8 = new Platform(new Vector(-172,-52), new Vector(135,3));
+		physics.staticObjects.add(plat8);
+		Platform plat9 = new Platform(new Vector(-261,19), new Vector(227,3));
+		physics.staticObjects.add(plat9);
+		Platform plat10 = new Platform(new Vector(40,60), new Vector(410,3));
+		physics.staticObjects.add(plat10);
+		
+		VerticalPlatform plat11 = new VerticalPlatform(new Vector(3,-300), new Vector(5,120));
+		physics.staticObjects.add(plat11);
+		drawableObjects.add(plat11);
+		
+		//LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
 		
 		drawableObjects.add(player1);
 		player1.setController(player1Controller);
@@ -82,9 +138,6 @@ public class Model implements Runnable{
 		physics.movingObjects.add(player2);
 		timedObjects.add(player2);
 		
-		drawableObjects.add(plat);
-		drawableObjects.add(plat2);
-		
 		TreasureChest chest = new TreasureChest("assault", new Vector(0, -190));
 		TreasureChest.chestSpriteClosed  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestClosed.png", "PNG");
 		TreasureChest.chestSpriteOpen  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestOpen.png", "PNG");
@@ -96,7 +149,6 @@ public class Model implements Runnable{
 		physics.staticObjects.add(plat2);
 		
 		timedObjects.add(physics);
-		timedObjects.add(plat2);
 		
 		while (gameRunning){
 			try {
