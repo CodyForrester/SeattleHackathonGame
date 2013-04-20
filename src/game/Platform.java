@@ -3,6 +3,8 @@ package game;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 
+import render.Drawable;
+
 import util.RectanglePositioned;
 import util.Vector;
 
