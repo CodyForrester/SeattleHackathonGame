@@ -10,7 +10,7 @@ public class LoopingPlatform extends Platform implements Timed {
 	private double period;
 	private double timePassed;
 	
-	public LoopingPlatform(Texture texture, Vector position, Vector size, Vector motion, double period) {
+	public LoopingPlatform(Vector position, Vector size, Vector motion, double period) {
 		super(position, size);
 		this.motion = motion;
 		this.period = period;

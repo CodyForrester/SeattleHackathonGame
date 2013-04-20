@@ -20,7 +20,7 @@ public class Platform implements RectanglePositioned, Drawable {
 	private Vector size;
 	
 	public Platform(Vector position, Vector size) {
-		this.texture = new ColorSprite2D(size, position, 0, Color.RED);
+		this.texture = new ColorSprite2D(position, size, 0, Color.RED);
 		this.position = position;
 		this.size = size;
 	}
@@ -36,6 +36,8 @@ public class Platform implements RectanglePositioned, Drawable {
 	} 
 	
 	public void draw() {
+		texture.setDimension(size);
+		texture.setPosition(position);
 		texture.draw();
 	}
 	
@@ -43,12 +45,13 @@ public class Platform implements RectanglePositioned, Drawable {
 		Vector aPosition = a.getPosition();
 		Vector aOldPosition = a.getOldPosition();
 		Vector aSize = a.getSize();
+		//System.out.println(aPosition);
 		//if( this.y >= doA.oy + doA.height && (doA.y + doA.height >= this.y) && (doA.x < this.x + this.width && doA.x + doA.width > this.x) )
-		if( (this.position.y >= aOldPosition.y + aSize.y) && (aPosition.y + aSize.y >= this.position.y) && (aPosition.x < this.position.x + this.size.x && aPosition.x + aSize.x > this.size.x) ){
+		if( (this.position.y + this.size.y >= aPosition.y) && (aPosition.x + aSize.x > this.position.x && aPosition.x < this.position.x + this.size.x) ){
 			System.out.println("collided");
-			return new Vector(aPosition.x, this.position.y - aSize.y);
+			return new Vector(aPosition.x, this.position.y + this.size.y);
 		} else {
-			System.out.println("none");
+			//System.out.println("none");
 			return null;
 		}
 	}

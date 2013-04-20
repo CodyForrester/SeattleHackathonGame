@@ -1,6 +1,7 @@
 package main;
 
 
+import game.LoopingPlatform;
 import game.Platform;
 import game.Player;
 import game.Timed;
@@ -41,14 +42,20 @@ public class Model implements Runnable{
 	
 	public void run() {
 		VerletIntegrator physics = new VerletIntegrator();
-		timedObjects.add(physics);
 		Player p = new Player(new Vector(0,0));
-		Platform plat = new Platform(new Vector(100, 100), new Vector(-50,-200));
+		Platform plat = new Platform(new Vector(-50, -200), new Vector(100,10));
+		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(10,10), new Vector(0,5), 100);
 		drawableObjects.add(p);
 		drawableObjects.add(plat);
+		drawableObjects.add(plat2);
 		
 		physics.movingObjects.add(p);
 		physics.staticObjects.add(plat);
+		physics.staticObjects.add(plat2);
+		
+		timedObjects.add(physics);
+		//timedObjects.add(p);
+		timedObjects.add(plat2);
 		
 		while (gameRunning){
 			try {

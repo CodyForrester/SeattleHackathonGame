@@ -67,6 +67,7 @@ public class Controller implements Runnable {
 
 	public void run() {
 		while (!Keyboard.isCreated());
+		while( !Controllers.next() ) ;
 		
 		while (gameRunning) {
 			/*
