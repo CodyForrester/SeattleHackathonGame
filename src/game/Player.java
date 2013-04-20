@@ -1,36 +1,49 @@
 package game;
-import java.util.*;
+import util.Vector;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Player implements util.PhysicsObject {
 	private int killCount;
 	private List<String> items;
-	private Vector position;
+	private Vector currentPosition;
+	private Vector oldPosition;
 	private String currentItem;
-	private int mapWidth;
-	private int mapHeight;
+	private int playerWidth;
+	private int playerHeight;
+	//private int mapWidth;
+	//private int mapHeight;
 	
-	//pre: passed information of how big the map is
-	//creates player with no kills and no items, at a random location on the map
+	//pre: passed information of how big the player is
+	//creates player with no kills and no items, at (0, 0)
 	public Player(int width, int height){
 		killCount = 0;
 		items = new ArrayList<String>();
-		mapWidth = width;
-		mapHeight = height;
-		respawn();
+		playerWidth = width;
+		playerHeight = height;
+		oldPosition = new Vector();
+		currentPosition = new Vector();
 	}
 	
-	//pre: player has just been killed
-	//post: removes all items from the player's inventory
-	//      and respawns player at a new random location in the map
-	public void respawn(){
-		items.clear();
-		Random r = new Random();
-		position =  new Vector(r.nextInt(mapWidth), r.nextInt(mapHeight));
+
+	//returns player's old position
+	public Vector getOldPosition(){
+		return oldPosition;
+	}
+	
+	//sets old position
+	public Vector setOldPosition(Vector position){
+		return position;
 	}
 	
 	//returns player's current position
 	public Vector getPosition(){
-		return position;
+		return currentPosition;
+	}
+	//return the player's size in the form (width, height)
+	public Vector getSize(){
+		return new Vector(playerWidth, playerHeight);
 	}
 	
 	//pre: passed a string containing item name
@@ -78,3 +91,14 @@ public class Player implements util.PhysicsObject {
 		killCount--;
 	}
 }
+
+
+/*	//pre: player has just been killed
+//post: removes all items from the player's inventory
+//      and respawns player at a new random location in the map
+public void respawn(){
+	items.clear();
+	Random r = new Random();
+	position =  new Vector(r.nextInt(mapWidth), r.nextInt(mapHeight));
+}*/
+
