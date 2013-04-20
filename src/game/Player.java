@@ -34,8 +34,8 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	}
 	
 	//sets old position
-	public Vector setOldPosition(Vector position){
-		return position;
+	public void setOldPosition(Vector position){
+		oldPosition = position;
 	}
 	
 	//returns player's current position
