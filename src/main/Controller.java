@@ -12,7 +12,7 @@ import util.Vector;
 import util.Vector3D;
 
 public class Controller implements Runnable {
-	
+
 	private enum N64Controller{
 		CUp (0),
 		CRight (1),
@@ -24,26 +24,26 @@ public class Controller implements Runnable {
 		R (7),
 		Z (8),
 		Start (9);
-		
+
 		int value;
 		N64Controller(int value){
 			this.value = value;
 		}
-		
+
 		public int getID(){
 			return value;
 		}
 	}
-	
+
 	private boolean gameRunning = true;
 	private Model model;
 
 	private Vector cameraPosition;
 	private double cameraDistance;
-	
+
 	public org.lwjgl.input.Controller Player1;
 	public org.lwjgl.input.Controller Player2;
-	
+
 	private float FOV;
 
 	public Controller() {
@@ -64,8 +64,8 @@ public class Controller implements Runnable {
 	public void setModel(Model model) {
 		this.model = model;
 	}
-	
-	
+
+
 
 	public void run() {
 		while (!Keyboard.isCreated());
@@ -79,27 +79,43 @@ public class Controller implements Runnable {
 				e.printStackTrace();
 			}
 			goodValues = 	Player1.getXAxisValue() != -1 &&
-							Player2.getXAxisValue() != -1 &&
-							Player1.getYAxisValue() != -1 &&
-							Player2.getYAxisValue() != -1;
+					Player2.getXAxisValue() != -1 &&
+					Player1.getYAxisValue() != -1 &&
+					Player2.getYAxisValue() != -1;
 		}
+
+
 		while (gameRunning) {
+
+			while (Controllers.next()) {
+				if (Controllers.isEventButton()) {
+					if (Controllers.getEventSource() == Player1) {
+						if (Controllers.getEventControlIndex() == 0 && Player1.isButtonPressed(0)) {
+							// p1 shoot
+							AudioPlayer.play(AudioPlayer.SHOOT);
+						}
+					} else if (Controllers.getEventSource() == Player2) {
+						if (Controllers.getEventControlIndex() == 0 && Player2.isButtonPressed(0)) {
+							// p2 shoot
+							AudioPlayer.play(AudioPlayer.SHOOT);
+						}
+					}
+				}
+			}
+
 			/*
 			 * Camera Controls
 			 */
-			if( Player1.isButtonPressed(0) ) {
-				AudioPlayer.play(AudioPlayer.SHOOT);
-			}
 			model.player1Controller.setX(Player1.getXAxisValue());
 			model.player1Controller.setY(Player1.getYAxisValue());
 			model.player1Controller.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
 			model.player1Controller.setButton4(Player1.isButtonPressed(N64Controller.B.getID()));
-			
+
 			model.player2Controller.setX(Player2.getXAxisValue());
 			model.player2Controller.setY(Player2.getYAxisValue());
 			model.player2Controller.setButton5(Player2.isButtonPressed(N64Controller.A.getID()));
 			model.player2Controller.setButton4(Player2.isButtonPressed(N64Controller.B.getID()));
-			
+
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
@@ -118,9 +134,9 @@ public class Controller implements Runnable {
 				cameraDistance = 300;
 			if (cameraDistance > 2500)
 				cameraDistance = 2500;
-			
+
 			double cameraSpeed = cameraDistance / 10000000.0;
-			
+
 			//cameraPosition.addInPlace(new Vector(Player1.getXAxisValue()*cameraSpeed, -Player1.getYAxisValue()*cameraSpeed));
 			//cameraPosition.addInPlace(new Vector(Player2.getXAxisValue()*cameraSpeed, -Player2.getYAxisValue()*cameraSpeed));
 			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
@@ -138,7 +154,7 @@ public class Controller implements Runnable {
 		 * Clean up
 		 */
 	}
-	
+
 	private Vector pickPointOnScreen(Vector screenPixel) {
 		Vector3D cameraForwards = new Vector3D(0, 0, -1);
 		Vector3D cameraRight = new Vector3D(1, 0, 0);
@@ -169,7 +185,7 @@ public class Controller implements Runnable {
 	public double getCameraDistance() {
 		return cameraDistance;
 	}
-	
+
 	public float getFOV() {
 		return FOV;
 	}
