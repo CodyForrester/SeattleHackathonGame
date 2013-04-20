@@ -93,11 +93,17 @@ public class Controller implements Runnable {
 						if (Controllers.getEventControlIndex() == 0 && Player1.isButtonPressed(0)) {
 							// p1 shoot
 							AudioPlayer.play(AudioPlayer.SHOOT);
+						} else if (Controllers.getEventControlIndex() == 8 && Player1.isButtonPressed(8)) {
+							//p1 trigger
+							model.player1Controller.trigger(true);
 						}
 					} else if (Controllers.getEventSource() == Player2) {
 						if (Controllers.getEventControlIndex() == 0 && Player2.isButtonPressed(0)) {
 							// p2 shoot
 							AudioPlayer.play(AudioPlayer.SHOOT);
+						} else if (Controllers.getEventControlIndex() == 8 && Player2.isButtonPressed(8)) {
+							//p2 trigger
+							model.player2Controller.trigger(true);
 						}
 					}
 				}
