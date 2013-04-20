@@ -46,7 +46,7 @@ public class Controller implements Runnable {
 
 	public Controller() {
 		cameraPosition = new Vector(0, 0);
-		cameraDistance = 100;
+		cameraDistance = 1000;
 		FOV = 45.0f;
 		try {
 			Controllers.create();
@@ -67,7 +67,20 @@ public class Controller implements Runnable {
 
 	public void run() {
 		while (!Keyboard.isCreated());
-		while( !Controllers.next() ) ;
+		
+		boolean goodValues = false;
+		while(!goodValues){
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			goodValues = 	Player1.getXAxisValue() != -1 &&
+							Player2.getXAxisValue() != -1 &&
+							Player1.getYAxisValue() != -1 &&
+							Player2.getYAxisValue() != -1;
+		}
 		
 		while (gameRunning) {
 			/*
@@ -76,11 +89,18 @@ public class Controller implements Runnable {
 			model.player1.setX(Player1.getXAxisValue());
 			model.player1.setY(Player1.getYAxisValue());
 			model.player1.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
+			model.player1.setButton4(Player1.isButtonPressed(N64Controller.B.getID()));
+			
+			model.player2.setX(Player2.getXAxisValue());
+			model.player2.setY(Player2.getYAxisValue());
+			model.player2.setButton5(Player2.isButtonPressed(N64Controller.A.getID()));
+			model.player2.setButton4(Player2.isButtonPressed(N64Controller.B.getID()));
+			
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
-			cameraDistance += (Player2.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
-			cameraDistance += (Player2.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
+			//cameraDistance += (Player2.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
+			//cameraDistance += (Player2.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
 			if (cameraDistance < 20)
 				cameraDistance = 20;
 			if (cameraDistance > 50000)

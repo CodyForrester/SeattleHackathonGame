@@ -16,6 +16,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private N64Controller controller;
 	private boolean isOnGround;
 	private Vector playerSize;
+	private int timer;
 	
 	//private int killCount;
 	//private List<String> items;
@@ -30,6 +31,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		oldPosition = starting;
 		currentPosition = starting;
 		playerSize = new Vector(20, 32);
+		timer = 0;
 	}
 	
 
@@ -49,7 +51,19 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public Vector getAcceleration(){
-		return new Vector(controller.getX()*5, controller.getButton5()?10:0);
+		Vector accel = new Vector();
+		
+		if( isOnGround ){
+			accel.x = controller.getX()*5;
+		} else if ( controller.getButton5() ){
+			accel.x = controller.getX()*15;
+		} else {
+			accel.x = controller.getX()*2.5;
+		}
+		if( controller.getButton5() ){
+			accel.y = 25;
+		}
+		return accel;
 	}
 	
 	public void draw(){
@@ -59,10 +73,22 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public void step(double timestep){
-		if (isOnGround())
+		if (isOnGround()) {
+			if( controller.getButton4() ){
+				this.oldPosition.y -= .2;
+				timer = 200;
+			}
 			this.playerSize.x = 15;
-		else
+			System.out.println("On Ground");
+		} else {
+			if( timer > 0 && controller.getButton4() ){
+				this.oldPosition.y -= .000025*timer;
+			} else {
+				timer = 0;
+			}
+			timer--;
 			this.playerSize.x = 20;
+		}
 	}
 	
 	public void setController(N64Controller controller){

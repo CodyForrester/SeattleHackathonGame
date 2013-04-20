@@ -25,6 +25,10 @@ import util.SpatialAlgorithm;
 
 public class Model implements Runnable{
 	private static final double TIME_STEP = 0.01;
+	public final double MIN_X = -1000;
+	public final double MAX_X = 1000;
+	public final double MIN_Y = -1000;
+	public final double MAX_Y = 1000;
 	
 	public N64Controller player1;
 	public N64Controller player2;
@@ -40,7 +44,7 @@ public class Model implements Runnable{
 	public Model() {
 		drawableObjects = Collections.synchronizedList(new ArrayList<Drawable>());
 		timedObjects = Collections.synchronizedList(new ArrayList<Timed>());
-		GridSprite2D grid = new GridSprite2D(new Vector(-200, -200), new Vector(400, 400), 20, 20, 1);
+		GridSprite2D grid = new GridSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 20, 20, 1);
 		drawableObjects.add(grid);
 		player1 = new N64Controller();
 		player2 = new N64Controller();
@@ -48,9 +52,10 @@ public class Model implements Runnable{
 	
 	public void run() {
 		VerletIntegrator physics = new VerletIntegrator();
+		physics.setModel(this);
 		Player p = new Player(new Vector(0,0));
 		Platform plat = new Platform(new Vector(-50, -200), new Vector(100,10));
-		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(10,10), new Vector(0,10), 10);
+		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
 		drawableObjects.add(p);
 		drawableObjects.add(plat);
 		drawableObjects.add(plat2);
@@ -60,7 +65,7 @@ public class Model implements Runnable{
 		physics.staticObjects.add(plat2);
 		
 		timedObjects.add(physics);
-		//timedObjects.add(p);
+		timedObjects.add(p);
 		timedObjects.add(plat2);
 		
 		while (gameRunning){
