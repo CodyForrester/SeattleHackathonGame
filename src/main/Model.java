@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import audio.AudioPlayer;
+
 import render.ColorSprite2D;
 import render.Drawable;
 import render.GridSprite2D;
@@ -30,8 +32,11 @@ public class Model implements Runnable{
 	public final double MIN_Y = -1000;
 	public final double MAX_Y = 1000;
 	
-	public N64Controller player1;
-	public N64Controller player2;
+	public N64Controller player1Controller;
+	public N64Controller player2Controller;
+	public Player player1;
+	public Player player2;
+	
 	
 	public static final Random random = new MersenneTwister();
 	
@@ -46,26 +51,38 @@ public class Model implements Runnable{
 		timedObjects = Collections.synchronizedList(new ArrayList<Timed>());
 		GridSprite2D grid = new GridSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 20, 20, 1);
 		drawableObjects.add(grid);
-		player1 = new N64Controller();
-		player2 = new N64Controller();
+		player1Controller = new N64Controller();
+		player2Controller = new N64Controller();
 	}
 	
 	public void run() {
+		AudioPlayer.start();
 		VerletIntegrator physics = new VerletIntegrator();
 		physics.setModel(this);
-		Player p = new Player(new Vector(0,0));
+		player1 = new Player(new Vector(0,0));
+		player2 = new Player(new Vector(80,0));
 		Platform plat = new Platform(new Vector(-50, -200), new Vector(100,10));
 		LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
-		drawableObjects.add(p);
+		
+		drawableObjects.add(player1);
+		player1.setController(player1Controller);
+		physics.movingObjects.add(player1);
+		timedObjects.add(player1);
+		
+		drawableObjects.add(player2);
+		player2.setController(player2Controller);
+		physics.movingObjects.add(player2);
+		timedObjects.add(player2);
+		
 		drawableObjects.add(plat);
 		drawableObjects.add(plat2);
-		p.setController(player1);
-		physics.movingObjects.add(p);
+		
+		
+		
 		physics.staticObjects.add(plat);
 		physics.staticObjects.add(plat2);
 		
 		timedObjects.add(physics);
-		timedObjects.add(p);
 		timedObjects.add(plat2);
 		
 		while (gameRunning){

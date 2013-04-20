@@ -17,11 +17,11 @@ public class AudioPlayer {
 	public static Sound
 	SHOOT;
 	
-	static {
+	public static void start(){
 		init();
 		SHOOT = new Sound("Sounds/laserb.wav");
 		// tee hee
-		play(SHOOT);
+		//play(SHOOT);
 	}
 	
 	/** Position of the source sound. */

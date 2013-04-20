@@ -48,7 +48,6 @@ public class Platform implements RectanglePositioned, Drawable {
 		//System.out.println(aPosition);
 		//if( this.y >= doA.oy + doA.height && (doA.y + doA.height >= this.y) && (doA.x < this.x + this.width && doA.x + doA.width > this.x) )
 		if( (this.position.y + this.size.y >= aPosition.y) && (this.position.y + this.size.y <= aOldPosition.y) && (aPosition.x + aSize.x > this.position.x && aPosition.x < this.position.x + this.size.x) ){
-			System.out.println("collided");
 			a.setIsOnGround(true);
 			if( a.getAcceleration().x == 0 ) {aOldPosition.addInPlace(new Vector((aPosition.x - aOldPosition.x)*.0025, 0)); }
 			return new Vector(aPosition.x, this.position.y + this.size.y);

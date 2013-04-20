@@ -6,6 +6,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.input.Controllers;
 
+import audio.AudioPlayer;
+
 import util.Vector;
 import util.Vector3D;
 
@@ -86,30 +88,40 @@ public class Controller implements Runnable {
 			/*
 			 * Camera Controls
 			 */
-			model.player1.setX(Player1.getXAxisValue());
-			model.player1.setY(Player1.getYAxisValue());
-			model.player1.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
-			model.player1.setButton4(Player1.isButtonPressed(N64Controller.B.getID()));
+			if( Player1.isButtonPressed(0) ) AudioPlayer.play(AudioPlayer.SHOOT);
+			model.player1Controller.setX(Player1.getXAxisValue());
+			model.player1Controller.setY(Player1.getYAxisValue());
+			model.player1Controller.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
+			model.player1Controller.setButton4(Player1.isButtonPressed(N64Controller.B.getID()));
 			
-			model.player2.setX(Player2.getXAxisValue());
-			model.player2.setY(Player2.getYAxisValue());
-			model.player2.setButton5(Player2.isButtonPressed(N64Controller.A.getID()));
-			model.player2.setButton4(Player2.isButtonPressed(N64Controller.B.getID()));
+			model.player2Controller.setX(Player2.getXAxisValue());
+			model.player2Controller.setY(Player2.getYAxisValue());
+			model.player2Controller.setButton5(Player2.isButtonPressed(N64Controller.A.getID()));
+			model.player2Controller.setButton4(Player2.isButtonPressed(N64Controller.B.getID()));
 			
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player2.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			//cameraDistance += (Player2.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
-			if (cameraDistance < 20)
-				cameraDistance = 20;
-			if (cameraDistance > 50000)
-				cameraDistance = 50000;
+			Vector p1 = model.player1.getPosition();
+			Vector p2 = model.player2.getPosition();
+			Vector s1 = model.player1.getSize();
+			Vector s2 = model.player2.getSize();
+			Vector bottomLeft = new Vector(Math.min(p1.x, p2.x) - 50, Math.min(p1.y, p2.y) - 50);
+			Vector topRight = new Vector(Math.max(p1.x+s1.x, p2.x+s2.x) + 50, Math.max(p1.y+s1.y, p2.y+s2.y) + 50);
+			topRight.subtractInPlace(bottomLeft);
+			cameraPosition = bottomLeft.plus(topRight.scale(0.5));
+			cameraDistance = topRight.mag() * 1.5;
+			if (cameraDistance < 300)
+				cameraDistance = 300;
+			if (cameraDistance > 2500)
+				cameraDistance = 2500;
 			
 			double cameraSpeed = cameraDistance / 10000000.0;
 			
 			//cameraPosition.addInPlace(new Vector(Player1.getXAxisValue()*cameraSpeed, -Player1.getYAxisValue()*cameraSpeed));
-			cameraPosition.addInPlace(new Vector(Player2.getXAxisValue()*cameraSpeed, -Player2.getYAxisValue()*cameraSpeed));
+			//cameraPosition.addInPlace(new Vector(Player2.getXAxisValue()*cameraSpeed, -Player2.getYAxisValue()*cameraSpeed));
 			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
 				cameraPosition.addInPlace(new Vector(-cameraSpeed, 0));
 			}

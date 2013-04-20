@@ -79,7 +79,6 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 				timer = 200;
 			}
 			this.playerSize.x = 15;
-			System.out.println("On Ground");
 		} else {
 			if( timer > 0 && controller.getButton4() ){
 				this.oldPosition.y -= .000025*timer;
