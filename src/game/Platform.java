@@ -11,7 +11,8 @@ import util.Vector;
 public class Platform implements RectanglePositioned, Drawable {
 	
 	private Texture texture;
-	private Vector position, size;
+	protected Vector position;
+	private Vector size;
 	
 	public Platform(Texture texture, Vector position, Vector size) {
 		this.texture = texture;
