@@ -6,22 +6,26 @@ public class Player implements util.PhysicsObject {
 	private List<String> items;
 	private Vector position;
 	private String currentItem;
+	private int mapWidth;
+	private int mapHeight;
 	
 	//pre: passed information of how big the map is
 	//creates player with no kills and no items, at a random location on the map
 	public Player(int width, int height){
 		killCount = 0;
 		items = new ArrayList<String>();
+		mapWidth = width;
+		mapHeight = height;
 		respawn();
 	}
 	
-	//pre: player has just been killed, or is spawning for the first time
+	//pre: player has just been killed
 	//post: removes all items from the player's inventory
 	//      and respawns player at a new random location in the map
 	public void respawn(){
 		items.clear();
 		Random r = new Random();
-		position =  new Vector(r.nextInt(width), r.nextInt(height));
+		position =  new Vector(r.nextInt(mapWidth), r.nextInt(mapHeight));
 	}
 	
 	//returns player's current position
