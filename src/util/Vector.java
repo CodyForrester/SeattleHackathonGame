@@ -6,6 +6,10 @@ public class Vector {
 	public Vector() {
 		x = y = 0;
 	}
+	
+	public Vector clone(){
+		return new Vector(x, y);
+	}
 
 	public Vector(double x, double y) {
 		this.x = x;

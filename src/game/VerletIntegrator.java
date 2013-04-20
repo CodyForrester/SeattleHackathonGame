@@ -62,12 +62,15 @@ public class VerletIntegrator implements Timed{
 			.minus(oldPosition)
 			.plus(a.scale(timeStep*timeStep))
 		);
-		
+		if( position.minus(tempPosition).mag() > 10 ){
+			System.out.println(position);
+			System.out.println(tempPosition);
+		}
 		o.setOldPosition(tempPosition);
 	}
 
 	private static final Vector gravity = new Vector(0,-5);
 	private Vector acceleration(PhysicsObject o, double timeStep){
-		return gravity;
+		return gravity.plus(o.getAcceleration());
 	}
 }

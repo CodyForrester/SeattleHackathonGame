@@ -54,7 +54,7 @@ public class Model implements Runnable{
 		drawableObjects.add(p);
 		drawableObjects.add(plat);
 		drawableObjects.add(plat2);
-		
+		p.setController(player1);
 		physics.movingObjects.add(p);
 		physics.staticObjects.add(plat);
 		physics.staticObjects.add(plat2);

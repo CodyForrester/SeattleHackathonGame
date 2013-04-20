@@ -75,9 +75,10 @@ public class Controller implements Runnable {
 			 */
 			model.player1.setX(Player1.getXAxisValue());
 			model.player1.setY(Player1.getYAxisValue());
+			model.player1.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));
 			cameraDistance += Mouse.getDWheel() * cameraDistance / 1000;
-			cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
-			cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
+			//cameraDistance += (Player1.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
+			//cameraDistance += (Player1.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
 			cameraDistance += (Player2.isButtonPressed(N64Controller.CUp.getID())?-.0005:0) * cameraDistance / 1000;
 			cameraDistance += (Player2.isButtonPressed(N64Controller.CDown.getID())?.0005:0) * cameraDistance / 1000;
 			if (cameraDistance < 20)
@@ -87,7 +88,7 @@ public class Controller implements Runnable {
 			
 			double cameraSpeed = cameraDistance / 10000000.0;
 			
-			cameraPosition.addInPlace(new Vector(Player1.getXAxisValue()*cameraSpeed, -Player1.getYAxisValue()*cameraSpeed));
+			//cameraPosition.addInPlace(new Vector(Player1.getXAxisValue()*cameraSpeed, -Player1.getYAxisValue()*cameraSpeed));
 			cameraPosition.addInPlace(new Vector(Player2.getXAxisValue()*cameraSpeed, -Player2.getYAxisValue()*cameraSpeed));
 			if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
 				cameraPosition.addInPlace(new Vector(-cameraSpeed, 0));

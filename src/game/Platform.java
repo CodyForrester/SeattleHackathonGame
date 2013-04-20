@@ -17,7 +17,7 @@ public class Platform implements RectanglePositioned, Drawable {
 	
 	private static Sprite2D texture;
 	protected Vector position;
-	private Vector size;
+	protected Vector size;
 	
 	public Platform(Vector position, Vector size) {
 		this.texture = new ColorSprite2D(position, size, 0, Color.RED);
@@ -47,8 +47,9 @@ public class Platform implements RectanglePositioned, Drawable {
 		Vector aSize = a.getSize();
 		//System.out.println(aPosition);
 		//if( this.y >= doA.oy + doA.height && (doA.y + doA.height >= this.y) && (doA.x < this.x + this.width && doA.x + doA.width > this.x) )
-		if( (this.position.y + this.size.y >= aPosition.y) && (aPosition.x + aSize.x > this.position.x && aPosition.x < this.position.x + this.size.x) ){
+		if( (this.position.y + this.size.y >= aPosition.y) && (this.position.y + this.size.y <= aOldPosition.y) && (aPosition.x + aSize.x > this.position.x && aPosition.x < this.position.x + this.size.x) ){
 			System.out.println("collided");
+			if( a.getAcceleration().x == 0 ) {aOldPosition.addInPlace(new Vector((aPosition.x - aOldPosition.x)*.0025, 0)); }
 			return new Vector(aPosition.x, this.position.y + this.size.y);
 		} else {
 			//System.out.println("none");

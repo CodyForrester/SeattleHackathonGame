@@ -46,7 +46,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	}
 	
 	public Vector getAcceleration(){
-		return new Vector(controller.getX(), 0);
+		return new Vector(controller.getX()*5, controller.getButton5()?10:0);
 	}
 	
 	public void draw(){
