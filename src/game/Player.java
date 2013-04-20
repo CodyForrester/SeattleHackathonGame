@@ -15,6 +15,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
 	private N64Controller controller;
 	private boolean isOnGround;
+	private boolean isOnWall;
 	private Vector playerSize;
 	private int timer;
 	
@@ -108,6 +109,14 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 		isOnGround = ground;
 	}
 	
+	
+	public boolean isOnWall(){
+		return isOnWall;
+	}
+	
+	public void setIsOnWall(boolean value){
+		isOnWall = value;
+	}
 	
 	public Vector collide(PhysicsObject a){
 		return null;
