@@ -11,8 +11,6 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	private Vector currentPosition;
 	private Vector oldPosition;
 	private String currentItem;
-	private int playerWidth;
-	private int playerHeight;
 	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
 	
 	private int killCount;
@@ -20,15 +18,13 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	//private int mapWidth;
 	//private int mapHeight;
 	
-	//pre: passed information of how big the player is
-	//creates player with no kills and no items, at (0, 0)
-	public Player(int width, int height){
+	//passed a valid starting position vector
+	//creates player with no kills and no items, at given vector
+	public Player(Vector starting){
 		killCount = 0;
 		items = new ArrayList<String>();
-		playerWidth = width;
-		playerHeight = height;
-		oldPosition = new Vector();
-		currentPosition = new Vector();
+		oldPosition = starting;
+		currentPosition = starting;
 	}
 	
 
@@ -54,7 +50,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	
 	//return the player's size in the form (width, height)
 	public Vector getSize(){
-		return new Vector(playerWidth, playerHeight);
+		return new Vector(20, 32);
 	}
 	
 	//pre: passed a string containing item name
