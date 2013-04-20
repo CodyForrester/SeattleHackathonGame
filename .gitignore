@@ -16,6 +16,8 @@ local.properties
 .settings/
 .loadpath
 
+lwjgl-2.8.5/*
+
 # External tool builders
 .externalToolBuilders/
 
