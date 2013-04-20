@@ -11,21 +11,23 @@ import util.Vector;
 public class Platform implements RectanglePositioned, Drawable {
 	
 	private Texture texture;
-	private Vector position;
-	private Vector dimension;
+	private Vector position, size;
 	
-	public Platform(Texture texture, Vector position) {
+	public Platform(Texture texture, Vector position, Vector size) {
 		this.texture = texture;
 		this.position = position;
+		this.size = size;
 	}
 	
+	@Override
 	public Vector getPosition() {
 		return position;
 	}
 	
-	public Vector getDimension() {
-		return dimension;
-	}
+	@Override
+	public Vector getSize() {
+		return size;
+	} 
 	
 	public void draw() {
 		texture.bind();
@@ -45,13 +47,13 @@ public class Platform implements RectanglePositioned, Drawable {
 			GL11.glVertex3d(0, 0, 0);
 			
 			GL11.glTexCoord2d(1, 1);
-			GL11.glVertex3d(dimension.x, 0, 0);
+			GL11.glVertex3d(size.x, 0, 0);
 			
 			GL11.glTexCoord2d(1, 0);
-			GL11.glVertex3d(dimension.x, dimension.y, 0);
+			GL11.glVertex3d(size.x, size.y, 0);
 			
 			GL11.glTexCoord2d(0, 0);
-			GL11.glVertex3d(0, dimension.y, 0);
+			GL11.glVertex3d(0, size.y, 0);
 		}
 		GL11.glEnd();
 		
