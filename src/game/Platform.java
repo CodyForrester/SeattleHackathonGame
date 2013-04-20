@@ -6,7 +6,7 @@ import org.newdawn.slick.opengl.Texture;
 import util.RectanglePositioned;
 import util.Vector;
 
-public class Platform implements RectanglePositioned {
+public class Platform implements RectanglePositioned, Drawable {
 	
 	private Texture texture;
 	private Vector position;
