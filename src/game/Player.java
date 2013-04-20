@@ -45,6 +45,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	
 	
 	public void draw(){
+		playersprite.setPosition(currentPosition);
 		playersprite.draw();
 	}
 	
