@@ -18,7 +18,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	public Projectile(String type, Vector starting){
 		this.type = type;
 		size = new Vector(5, 5);
-		oldPosition = starting;
+		oldPosition = starting.minus(new Vector(5,0));
 		currentPosition = starting;
 	}
 	
@@ -58,7 +58,6 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	
 	public void setIsOnWall(boolean value){
 		isOnWall = value;
-			
 	}
 	
 	public boolean removeMe(){

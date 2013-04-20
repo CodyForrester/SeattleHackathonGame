@@ -17,6 +17,7 @@ public class VerletIntegrator implements Timed{
 	private List<PhysicsObject> movingToDelete;
 	
 	private Model model;
+	private List<PhysicsObject> movingToAdd;
 	
 	public void setModel(Model m){
 		model = m;
@@ -25,10 +26,15 @@ public class VerletIntegrator implements Timed{
 		movingObjects = new ArrayList<PhysicsObject>();
 		staticObjects = new ArrayList<RectanglePositioned>();
 		movingToDelete = new ArrayList<PhysicsObject>();
+		movingToAdd = new ArrayList<PhysicsObject>();
 	}
 	
 	public void deleteMovingObject(PhysicsObject p){
 		movingToDelete.add(p);
+	}
+	
+	public void addMovingObject(PhysicsObject p){
+		movingToAdd.add(p);
 	}
 
 	public void step(double timeStep){
@@ -83,11 +89,15 @@ public class VerletIntegrator implements Timed{
 					movingToDelete.add(a);
 				}
 			}
-			for( PhysicsObject a : movingToDelete ){
-				movingObjects.remove(a);
-			}
-			movingToDelete.clear();
 		}
+		for( PhysicsObject a : movingToDelete ){
+			movingObjects.remove(a);
+		}
+		movingToDelete.clear();
+		for( PhysicsObject a : movingToAdd ){
+			movingObjects.add(a);
+		}
+		movingToAdd.clear();
 	}
 
 	private void integrateVerlet(PhysicsObject o, double timeStep){

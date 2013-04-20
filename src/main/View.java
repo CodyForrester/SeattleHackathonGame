@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -8,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 import render.Drawable;
+import util.PhysicsObject;
 import util.Vector;
 
 public class View implements Runnable {
@@ -86,7 +89,6 @@ public class View implements Runnable {
 				/*
 				 * Draw Code
 				 */
-
 				synchronized (model.drawableObjects) {
 					for (Drawable drawable : model.drawableObjects)
 						drawable.draw();

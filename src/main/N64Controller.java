@@ -46,7 +46,7 @@ public class N64Controller{
 	public boolean getTrigger(){
 		if( trigger ) {
 			trigger = false;
-			return trigger;
+			return true;
 		}
 		return false;
 	}

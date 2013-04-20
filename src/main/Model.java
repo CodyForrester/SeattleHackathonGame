@@ -21,6 +21,7 @@ import render.Drawable;
 import render.GridSprite2D;
 import render.RectTextureSprite2D;
 import util.MersenneTwister;
+import util.PhysicsObject;
 import util.TextureFactory;
 import util.Vector;
 import util.Positioned;
@@ -44,8 +45,9 @@ public class Model implements Runnable{
 	
 	private boolean gameRunning = true;
 	
-	protected List<Drawable> drawableObjects;
-	protected List<Timed>    timedObjects;
+	public List<Drawable> drawableObjects;
+	public List<Timed>    timedObjects;
+	public VerletIntegrator physics;
 	
 	public Model() {
 		drawableObjects = Collections.synchronizedList(new ArrayList<Drawable>());
@@ -58,7 +60,7 @@ public class Model implements Runnable{
 	
 	public void run() {
 		AudioPlayer.start();
-		VerletIntegrator physics = new VerletIntegrator();
+		physics = new VerletIntegrator();
 		physics.setModel(this);
 		player1 = new Player(new Vector(0,0));
 		player2 = new Player(new Vector(80,0));
@@ -68,11 +70,13 @@ public class Model implements Runnable{
 		
 		drawableObjects.add(player1);
 		player1.setController(player1Controller);
+		player1.setModel(this);
 		physics.movingObjects.add(player1);
 		timedObjects.add(player1);
 		
 		drawableObjects.add(player2);
 		player2.setController(player2Controller);
+		player2.setModel(this);
 		physics.movingObjects.add(player2);
 		timedObjects.add(player2);
 		
@@ -98,6 +102,12 @@ public class Model implements Runnable{
 			
 			for (Timed timed : timedObjects){
 				timed.step(TIME_STEP);
+				if( timed instanceof PhysicsObject ){
+					if( ((PhysicsObject) timed).removeMe() ){
+						timedObjects.remove(timed);
+						drawableObjects.remove(timed);
+					}
+				}
 			}
 		}
 		

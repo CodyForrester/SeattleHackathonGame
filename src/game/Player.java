@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import render.ColorSprite2D;
 import java.awt.*;
+
+import main.Model;
 import main.N64Controller;
 
 public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
@@ -17,8 +19,13 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private boolean isOnGround;
 	private boolean isOnWall;
 	private Vector playerSize;
+	private Model model;
 	private int timer;
 	
+	
+	public void setModel(Model m){
+		model = m;
+	}
 	//private int killCount;
 	//private List<String> items;
 	//private int mapWidth;
@@ -74,6 +81,12 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public void step(double timestep){
+		if( controller.getTrigger() ){
+			System.out.println("Fire!");
+			Projectile p = new Projectile("bullet", currentPosition.plus(new Vector(0, playerSize.y / 2)));
+			model.physics.movingObjects.add(p);
+			model.drawableObjects.add(p);
+		}
 		if (isOnGround()) {
 			if( controller.getButton4() ){
 				this.oldPosition.y -= .2;
