@@ -1,17 +1,21 @@
 package game;
+import util.PhysicsObject;
 import util.Vector;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import render.ColorSprite2D;
 
-public class Player implements util.PhysicsObject {
-	private int killCount;
-	private List<String> items;
+public class Player implements util.PhysicsObject, render.Drawable {
 	private Vector currentPosition;
 	private Vector oldPosition;
 	private String currentItem;
 	private int playerWidth;
 	private int playerHeight;
+	private ColorSprite2D playersprite;
+	
+	private int killCount;
+	private List<String> items;
 	//private int mapWidth;
 	//private int mapHeight;
 	
@@ -24,6 +28,7 @@ public class Player implements util.PhysicsObject {
 		playerHeight = height;
 		oldPosition = new Vector();
 		currentPosition = new Vector();
+		//playersprite = new ColorSprite2D(????);
 	}
 	
 
@@ -41,6 +46,12 @@ public class Player implements util.PhysicsObject {
 	public Vector getPosition(){
 		return currentPosition;
 	}
+	
+	
+	public void draw(){
+		playersprite.draw();
+	}
+	
 	//return the player's size in the form (width, height)
 	public Vector getSize(){
 		return new Vector(playerWidth, playerHeight);
@@ -69,12 +80,6 @@ public class Player implements util.PhysicsObject {
 		return currentItem;
 	}
 	
-	//returns the player model, subject to change because
-	//I don't currently know how to return a model
-	public String toString(){
-		return "PLAYER";
-	}
-	
 	//returns current number of kills this player has
 	public int getKillCount(){
 		return killCount;
@@ -89,6 +94,10 @@ public class Player implements util.PhysicsObject {
 	//can be used if the player suicides
 	public void removeKill(){
 		killCount--;
+	}
+	
+	public Vector collide(PhysicsObject a){
+		return null;
 	}
 }
 
