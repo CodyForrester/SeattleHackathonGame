@@ -2,6 +2,8 @@ package game;
 
 import util.Vector;
 import render.ColorSprite2D;
+import render.RectTextureSprite2D;
+
 import java.awt.*;
 import util.PhysicsObject;
 
@@ -9,7 +11,8 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 	private boolean open;
 	private String item;
 	private Vector currentPosition;
-	private static ColorSprite2D chestsprite = new ColorSprite2D(new Vector(), new Vector (10, 10), 0, Color.ORANGE);
+	public static RectTextureSprite2D chestSpriteClosed;
+	public static RectTextureSprite2D chestSpriteOpen;
 	private Vector size;
 	
 	//creates a treasure chest that contains the specified item
@@ -18,16 +21,19 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 		this.item = item;
 		currentPosition = position;
 		open = false;
-		size = new Vector(10, 10);
+		size = new Vector(30, 30);
 	}
 	
 	public void draw(){
 		if (open){
-			size.y = 15;
+			chestSpriteOpen.setPosition(currentPosition);
+			chestSpriteOpen.setDimension(size);
+			chestSpriteOpen.draw();
+		} else {
+			chestSpriteClosed.setPosition(currentPosition);
+			chestSpriteClosed.setDimension(size);
+			chestSpriteClosed.draw();
 		}
-		chestsprite.setPosition(currentPosition);
-		chestsprite.setDimension(size);
-		chestsprite.draw();
 	}
 	
 	public Vector getSize(){
