@@ -176,7 +176,7 @@ public class View implements Runnable {
 					GL11.glTranslatef(-(windowWidth - jetpackWidth - padding), -padding, 0);
 
 				} else {
-					setUICamera();
+					setDylanCompatibleUICamera();
 					if (screenState == ScreenState.TITLE) {
 						title.setDimension(new Vector(windowWidth, windowHeight));
 						title.draw();
@@ -235,6 +235,15 @@ public class View implements Runnable {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, windowWidth, windowHeight, 0, -1, 1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
+		GL11.glViewport(0, 0, windowWidth, windowHeight);
+	}
+	
+	private void setDylanCompatibleUICamera() {
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, windowWidth, 0, windowHeight, -1, 1);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 		GL11.glViewport(0, 0, windowWidth, windowHeight);
