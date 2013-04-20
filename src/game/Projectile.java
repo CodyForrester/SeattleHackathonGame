@@ -13,6 +13,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	private Vector size;
 	private ColorSprite2D sprite = new ColorSprite2D(new Vector(), new Vector (5, 5), 0, Color.GREEN);
 	private boolean isOnWall;
+	private int directionFacing;
 	
 	//pre: passed a legal String for type, and a starting position
 	public Projectile(String type, Vector starting){
@@ -81,5 +82,9 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	
 	public Vector getAcceleration(){
 		return new Vector(); //projectiles should move at constant speed
+	}
+	
+	public void setDirection(int direction){
+		directionFacing = direction;
 	}
 }

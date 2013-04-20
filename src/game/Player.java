@@ -21,6 +21,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private Vector playerSize;
 	private Model model;
 	private int timer;
+	private int directionFacing;
 	
 	
 	public void setModel(Model m){
@@ -131,6 +132,22 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	public boolean removeMe(){
 		return false;
 	}
+	
+	//-1 = left
+	//0 = neutral
+	//1 = right
+	public int getDirectionFacing(){
+		if (controller.getX() < 0 && directionFacing == 1){
+			directionFacing = -1;
+			return -1;
+		}
+		else if (controller.getX() > 0 && directionFacing == -1){
+			directionFacing = 1;
+			return 1;
+		}
+		return directionFacing;
+	}
+	
 	public Vector collide(PhysicsObject a){
 		return null;
 	}
