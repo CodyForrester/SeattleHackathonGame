@@ -2,6 +2,7 @@ package main;
 
 
 import game.LoopingPlatform;
+import game.TreasureChest;
 import game.Platform;
 import game.Player;
 import game.Timed;
@@ -77,7 +78,9 @@ public class Model implements Runnable{
 		drawableObjects.add(plat);
 		drawableObjects.add(plat2);
 		
-		
+		TreasureChest chest = new TreasureChest("assault", new Vector(0, -190));
+		drawableObjects.add(chest);
+		physics.staticObjects.add(chest);
 		
 		physics.staticObjects.add(plat);
 		physics.staticObjects.add(plat2);

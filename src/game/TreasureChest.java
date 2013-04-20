@@ -22,11 +22,16 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 	}
 	
 	public void draw(){
+		if (open){
+			size.y = 15;
+		}
+		chestsprite.setPosition(currentPosition);
+		chestsprite.setDimension(size);
 		chestsprite.draw();
 	}
 	
 	public Vector getSize(){
-		return new Vector(10, 10);
+		return size;
 	}
 	
 	public Vector getPosition(){
