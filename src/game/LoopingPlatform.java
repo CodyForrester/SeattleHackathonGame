@@ -22,7 +22,8 @@ public class LoopingPlatform extends Platform implements Timed {
 		timePassed += timeStep;
 		if (timePassed > period) {
 			motion = motion.scale(-1);
-			step(timePassed - period);
+			position.addInPlace(motion.scale(timePassed - period));
+			timePassed = 0;
 		}
 	}
 
