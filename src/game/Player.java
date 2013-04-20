@@ -1,4 +1,5 @@
 package game;
+import util.PhysicsObject;
 import util.Vector;
 import java.util.List;
 import java.util.ArrayList;
@@ -89,6 +90,10 @@ public class Player implements util.PhysicsObject {
 	//can be used if the player suicides
 	public void removeKill(){
 		killCount--;
+	}
+	
+	public Vector collide(PhysicsObject a){
+		return null;
 	}
 }
 
