@@ -18,7 +18,6 @@ import audio.AudioPlayer;
 
 import render.ColorSprite2D;
 import render.Drawable;
-import render.GridSprite2D;
 import render.RectTextureSprite2D;
 import util.MersenneTwister;
 import util.PhysicsObject;
@@ -29,10 +28,10 @@ import util.SpatialAlgorithm;
 
 public class Model implements Runnable{
 	private static final double TIME_STEP = 0.01;
-	public final double MIN_X = -1000;
-	public final double MAX_X = 1000;
-	public final double MIN_Y = -1000;
-	public final double MAX_Y = 1000;
+	public final double MIN_X = -450;
+	public final double MAX_X = 450;
+	public final double MIN_Y = -300;
+	public final double MAX_Y = 300;
 	
 	public N64Controller player1Controller;
 	public N64Controller player2Controller;
@@ -54,8 +53,6 @@ public class Model implements Runnable{
 	public Model() {
 		drawableObjects = Collections.synchronizedList(new ArrayList<Drawable>());
 		timedObjects = Collections.synchronizedList(new ArrayList<Timed>());
-		GridSprite2D grid = new GridSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 20, 20, 1);
-		drawableObjects.add(grid);
 		player1Controller = new N64Controller();
 		player2Controller = new N64Controller();
 		thingsToAdd = new ArrayList<PhysicsObject>();
@@ -63,6 +60,7 @@ public class Model implements Runnable{
 	}
 	
 	public void run() {
+		drawableObjects.add(new RectTextureSprite2D(new Vector(MIN_X, MIN_Y), new Vector(MAX_X-MIN_X, MAX_Y-MIN_Y), 0, "assets/textures/Stage1.png", "PNG"));
 		AudioPlayer.start();
 		physics = new VerletIntegrator();
 		physics.setModel(this);
