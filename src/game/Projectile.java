@@ -12,6 +12,7 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	private Vector currentPosition;
 	private Vector size;
 	private ColorSprite2D sprite = new ColorSprite2D(new Vector(), new Vector (5, 5), 0, Color.GREEN);
+	private boolean isOnWall;
 	
 	//pre: passed a legal String for type, and a starting position
 	public Projectile(String type, Vector starting){
@@ -51,11 +52,26 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 		//do nothing
 	}
 	
+	public boolean isOnWall(){
+		return isOnWall;
+	}
+	
+	public void setIsOnWall(boolean value){
+		isOnWall = value;
+	}
+	
 	public Vector getSize(){
 		return size;
 	}
 	
 	public Vector collide(PhysicsObject a){
+		Vector aPosition = a.getPosition();
+		Vector aOldPosition = a.getOldPosition();
+		Vector aSize = a.getSize();
+		if (a instanceof Player && (aPosition.x + aSize.x > this.currentPosition.x && aPosition.x < this.currentPosition.x + this.size.x) && (aPosition.y + aSize.y > this.currentPosition.y && aPosition.y < this.currentPosition.y + this.size.y)){
+			//projectile hit a player, do something here
+			return a.getPosition();
+		}
 		return null;
 	}
 	
