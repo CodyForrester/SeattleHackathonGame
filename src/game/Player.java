@@ -8,13 +8,14 @@ import render.ColorSprite2D;
 import java.awt.*;
 import main.N64Controller;
 
-public class Player implements util.PhysicsObject, render.Drawable {
+public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	private Vector currentPosition;
 	private Vector oldPosition;
 	private String currentItem;
 	private static ColorSprite2D playersprite = new ColorSprite2D(new Vector(), new Vector (20, 32), 0, Color.BLUE);
 	private N64Controller controller;
 	private boolean isOnGround;
+	private Vector playerSize;
 	
 	private int killCount;
 	private List<String> items;
@@ -28,6 +29,7 @@ public class Player implements util.PhysicsObject, render.Drawable {
 		items = new ArrayList<String>();
 		oldPosition = starting;
 		currentPosition = starting;
+		playerSize = new Vector(20, 32);
 	}
 	
 
@@ -52,15 +54,22 @@ public class Player implements util.PhysicsObject, render.Drawable {
 	
 	public void draw(){
 		playersprite.setPosition(currentPosition);
+		playersprite.setDimension(playerSize);
 		playersprite.draw();
 	}
 	
+	public void step(double timestep){
+		if (isOnGround())
+			this.playerSize.x = 15;
+		else
+			this.playerSize.x = 20;
+	}
 	public void setController(N64Controller controller){
 		this.controller = controller;
 	}
 	//return the player's size in the form (width, height)
 	public Vector getSize(){
-		return new Vector(20, 32);
+		return playerSize;
 	}
 	
 	public boolean isOnGround(){
