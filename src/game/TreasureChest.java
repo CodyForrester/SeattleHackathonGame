@@ -32,8 +32,8 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned 
 		return item;
 	}
 	
-	public void collide(PhysicsObject a){
-		
+	public Vector collide(PhysicsObject a){
+		return null;
 	}
 
 }
