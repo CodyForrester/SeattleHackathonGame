@@ -19,7 +19,7 @@ public class AudioPlayer {
 	
 	public static void start(){
 		init();
-		SHOOT = new Sound("Sounds/laserb.wav");
+		SHOOT = new Sound("Sounds/laserb.wav", 5);
 		// tee hee
 		//play(SHOOT);
 	}
@@ -41,7 +41,7 @@ public class AudioPlayer {
 
 	public static List<int[]> loadedSounds = new LinkedList<int[]>();
 	
-	public static int loadSource(String filepath) {
+	public static int[] loadSource(String filepath, int maxSources) {
 		// Load wav data into a buffer.
 		//AL10.alGenBuffers(buffer);
 		int buffer = AL10.alGenBuffers();
@@ -58,7 +58,7 @@ public class AudioPlayer {
 			fin = new java.io.FileInputStream(filepath);
 		} catch (java.io.FileNotFoundException e) {
 			e.printStackTrace();
-			return AL10.AL_FALSE;
+			System.exit(-1);
 		}
 		WaveData waveFile = WaveData.create(new BufferedInputStream(fin));
 		try {
@@ -71,8 +71,12 @@ public class AudioPlayer {
 		AL10.alBufferData(buffer, waveFile.format, waveFile.data, waveFile.samplerate);
 		waveFile.dispose();
 
+		int[] sources = new int[maxSources];
+		
+		for (int i = 0; i < maxSources; i++) {
+		
 		// Bind the buffer with the source.
-		int source = AL10.alGenSources();
+		sources[i] = AL10.alGenSources();
 
 		error = AL10.alGetError();
 		if(error != AL10.AL_NO_ERROR) {
@@ -80,12 +84,14 @@ public class AudioPlayer {
 			System.exit(-1);
 		}
 
-		AL10.alSourcei(source, AL10.AL_BUFFER,   buffer   );
-		AL10.alSourcef(source, AL10.AL_PITCH,    1.0f     );
-		AL10.alSourcef(source, AL10.AL_GAIN,     1.0f     );
-		AL10.alSource (source, AL10.AL_POSITION, sourcePos);
-		AL10.alSource (source, AL10.AL_VELOCITY, sourceVel);
+		AL10.alSourcei(sources[i], AL10.AL_BUFFER,   buffer   );
+		AL10.alSourcef(sources[i], AL10.AL_PITCH,    1.0f     );
+		AL10.alSourcef(sources[i], AL10.AL_GAIN,     1.0f     );
+		AL10.alSource (sources[i], AL10.AL_POSITION, sourcePos);
+		AL10.alSource (sources[i], AL10.AL_VELOCITY, sourceVel);
 
+		}
+		
 		// Do another error check and return.
 		error = AL10.alGetError();
 		if(error != AL10.AL_NO_ERROR) {
@@ -93,7 +99,7 @@ public class AudioPlayer {
 			System.exit(-1);
 		}
 
-		return source;
+		return sources;
 	}
 
 	public static void init() {
