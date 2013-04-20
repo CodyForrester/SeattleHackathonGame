@@ -1,6 +1,6 @@
 package audio;
 
-public class IndexedSourceSound {
+public class IndexedSourceSound implements Sound {
 
 	private int[] sources;
 	
