@@ -88,7 +88,10 @@ public class Controller implements Runnable {
 			/*
 			 * Camera Controls
 			 */
-			if( Player1.isButtonPressed(0) ) AudioPlayer.play(AudioPlayer.SHOOT);
+			if( Player1.isButtonPressed(0) ) {
+				AudioPlayer.play(AudioPlayer.SHOOT);
+				AudioPlayer.play(AudioPlayer.MUSIC);
+			}
 			model.player1Controller.setX(Player1.getXAxisValue());
 			model.player1Controller.setY(Player1.getYAxisValue());
 			model.player1Controller.setButton5(Player1.isButtonPressed(N64Controller.A.getID()));

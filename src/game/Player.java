@@ -51,7 +51,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public Vector getAcceleration(){
-		Vector accel = new Vector();
+		Vector accel = new Vector(0,-25);
 		
 		if( isOnGround ){
 			accel.x = controller.getX()*5;
@@ -61,7 +61,7 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 			accel.x = controller.getX()*2.5;
 		}
 		if( controller.getButton5() ){
-			accel.y = 25;
+			accel.y = 10;
 		}
 		return accel;
 	}

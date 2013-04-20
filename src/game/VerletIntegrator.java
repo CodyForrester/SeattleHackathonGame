@@ -87,8 +87,7 @@ public class VerletIntegrator implements Timed{
 		o.setOldPosition(tempPosition);
 	}
 
-	private static final Vector gravity = new Vector(0,-15);
 	private Vector acceleration(PhysicsObject o, double timeStep){
-		return gravity.plus(o.getAcceleration());
+		return o.getAcceleration();
 	}
 }
