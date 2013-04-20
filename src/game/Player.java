@@ -82,11 +82,14 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	}
 	
 	public void step(double timestep){
+		getDirectionFacing();
 		if( controller.getTrigger() ){
 			System.out.println("Fire!");
 			Projectile p = new Projectile("bullet", currentPosition.plus(new Vector(0, playerSize.y / 2)));
+			p.setOldPosition(p.getPosition().minus(new Vector(directionFacing*model.physics.PLAYER_MAX_X_SPEED*3, 0)));
+			p.setDirection(directionFacing);
 			model.physics.movingObjects.add(p);
-			model.drawableObjects.add(p);
+			model.thingsToAdd.add(p);
 		}
 		if (isOnGround()) {
 			if( controller.getButton4() ){
@@ -137,11 +140,11 @@ public class Player implements util.PhysicsObject, render.Drawable, game.Timed {
 	//0 = neutral
 	//1 = right
 	public int getDirectionFacing(){
-		if (controller.getX() < 0 && directionFacing == 1){
+		if (controller.getX() < 0 && directionFacing != -1){
 			directionFacing = -1;
 			return -1;
 		}
-		else if (controller.getX() > 0 && directionFacing == -1){
+		else if (controller.getX() > 0 && directionFacing != 1){
 			directionFacing = 1;
 			return 1;
 		}

@@ -67,7 +67,7 @@ public class VerletIntegrator implements Timed{
 					a.setIsOnGround(true);
 					a.setIsOnWall(true);
 				}
-				if( v.y > model.MAX_Y - s.y ){
+				if( v.y >= model.MAX_Y - s.y ){
 					v.y = model.MAX_Y - s.y;
 					a.setIsOnWall(true);
 				}
@@ -87,6 +87,7 @@ public class VerletIntegrator implements Timed{
 				}
 				if( a.removeMe() ){
 					movingToDelete.add(a);
+					System.out.println(a);
 				}
 			}
 		}
@@ -110,14 +111,14 @@ public class VerletIntegrator implements Timed{
 		Vector difference = position
 				.minus(oldPosition)
 				.plus(a.scale(timeStep*timeStep));
-		if( difference.x > PLAYER_MAX_X_SPEED ){
-			difference.x = PLAYER_MAX_X_SPEED;
-		} else if ( difference.x < -PLAYER_MAX_X_SPEED ){
-			difference.x = -PLAYER_MAX_X_SPEED;
+		if( o instanceof Player ){
+			if( difference.x > PLAYER_MAX_X_SPEED ){
+				difference.x = PLAYER_MAX_X_SPEED;
+			} else if ( difference.x < -PLAYER_MAX_X_SPEED ){
+				difference.x = -PLAYER_MAX_X_SPEED;
+			}
 		}
-		position.addInPlace(
-			difference
-		);
+		position.addInPlace(difference);
 		o.setOldPosition(tempPosition);
 	}
 

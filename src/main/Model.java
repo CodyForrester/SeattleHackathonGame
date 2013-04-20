@@ -48,6 +48,8 @@ public class Model implements Runnable{
 	public List<Drawable> drawableObjects;
 	public List<Timed>    timedObjects;
 	public VerletIntegrator physics;
+	public List<PhysicsObject> thingsToAdd;
+	public List<PhysicsObject> thingsToRemove;
 	
 	public Model() {
 		drawableObjects = Collections.synchronizedList(new ArrayList<Drawable>());
@@ -56,6 +58,8 @@ public class Model implements Runnable{
 		drawableObjects.add(grid);
 		player1Controller = new N64Controller();
 		player2Controller = new N64Controller();
+		thingsToAdd = new ArrayList<PhysicsObject>();
+		thingsToRemove = new ArrayList<PhysicsObject>();
 	}
 	
 	public void run() {
@@ -84,6 +88,9 @@ public class Model implements Runnable{
 		drawableObjects.add(plat2);
 		
 		TreasureChest chest = new TreasureChest("assault", new Vector(0, -190));
+		TreasureChest.chestSpriteClosed  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestClosed.png", "PNG");
+		TreasureChest.chestSpriteOpen  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestOpen.png", "PNG");
+		
 		drawableObjects.add(chest);
 		physics.staticObjects.add(chest);
 		
@@ -99,16 +106,24 @@ public class Model implements Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 			for (Timed timed : timedObjects){
 				timed.step(TIME_STEP);
 				if( timed instanceof PhysicsObject ){
 					if( ((PhysicsObject) timed).removeMe() ){
-						timedObjects.remove(timed);
-						drawableObjects.remove(timed);
+						thingsToRemove.add((PhysicsObject)timed);
 					}
 				}
 			}
+			for(PhysicsObject toRemove : thingsToRemove ){
+				timedObjects.remove(toRemove);
+				drawableObjects.remove(toRemove);
+			}
+			for(PhysicsObject toAdd : thingsToAdd ){
+				timedObjects.add((Timed)toAdd);
+				drawableObjects.add((Drawable)toAdd);
+			}
+			thingsToRemove.clear();
+			thingsToAdd.clear();
 		}
 		
 		/*

@@ -6,7 +6,7 @@ import java.awt.*;
 
 import main.N64Controller;
 
-public class Projectile implements util.PhysicsObject, render.Drawable {
+public class Projectile implements util.PhysicsObject, render.Drawable, Timed {
 	private String type;
 	private Vector oldPosition;
 	private Vector currentPosition;
@@ -47,6 +47,9 @@ public class Projectile implements util.PhysicsObject, render.Drawable {
 	
 	public boolean isOnGround(){
 		return false;
+	}
+	
+	public void step(double v){
 	}
 	
 	public void setIsOnGround(boolean ground){
