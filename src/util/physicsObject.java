@@ -1,5 +1,6 @@
 package util;
 
-public interface physicsObject {
-
+public interface PhysicsObject extends RectanglePositioned{
+	public Vector getOldPosition();
+	public Vector setOldPosition();
 }
