@@ -69,7 +69,7 @@ public class Controller implements Runnable {
 
 	public void run() {
 		while (!Keyboard.isCreated());
-		AudioPlayer.play(AudioPlayer.MUSIC);
+		//AudioPlayer.play(AudioPlayer.MUSIC);
 		boolean goodValues = false;
 		while(!goodValues){
 			try {
