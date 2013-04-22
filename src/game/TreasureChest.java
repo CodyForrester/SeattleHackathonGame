@@ -1,5 +1,6 @@
 package game;
 
+import util.RectanglePositioned;
 import util.Vector;
 import render.ColorSprite2D;
 import render.RectTextureSprite2D;
@@ -16,6 +17,7 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned,
 	public static RectTextureSprite2D chestSpriteClosed;
 	public static RectTextureSprite2D chestSpriteOpen;
 	private Vector size;
+	public Model model;
 	
 	//creates a treasure chest that contains the specified item
 	//chests are closed by default
@@ -73,6 +75,9 @@ public class TreasureChest implements render.Drawable, util.RectanglePositioned,
 	@Override
 	public void step(double timeStep) {
 		if( Model.random.nextInt(10000) == 13 ){
+			int nextPlatformId = Model.random.nextInt(model.physics.staticObjects.size());
+			RectanglePositioned nextPlatform = model.physics.staticObjects.get(nextPlatformId);
+			this.currentPosition = nextPlatform.getPosition().plus(new Vector(nextPlatform.getSize().x/2-size.x/2,nextPlatform.getSize().y));
 			open = false;
 		}
 		

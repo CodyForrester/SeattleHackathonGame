@@ -141,9 +141,10 @@ public class Model implements Runnable{
 		physics.staticObjects.add(plat16);
 		VerticalPlatform plat17 = new VerticalPlatform(new Vector(215,-130), new Vector(5,80));
 		physics.staticObjects.add(plat17);
-		
+		TreasureChest chest = new TreasureChest("assault", new Vector(-300,-220));
+
 		//LoopingPlatform plat2 = new LoopingPlatform(new Vector(0, -20), new Vector(100,10), new Vector(0,10), 10);
-		
+		drawableObjects.add(chest);
 		drawableObjects.add(player1);
 		player1.setController(player1Controller);
 		player1.setModel(this);
@@ -155,11 +156,10 @@ public class Model implements Runnable{
 		physics.movingObjects.add(player2);
 		timedObjects.add(player2);
 		
-		TreasureChest chest = new TreasureChest("assault", new Vector(-300,-220));
 		TreasureChest.chestSpriteClosed  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestClosed.png", "PNG");
 		TreasureChest.chestSpriteOpen  = new RectTextureSprite2D(new Vector(), new Vector(), 0, "assets/textures/ChestOpen.png", "PNG");
 		timedObjects.add(chest);
-		drawableObjects.add(chest);
+		chest.model = this;
 		physics.staticObjects.add(chest);
 		
 		physics.staticObjects.add(plat);

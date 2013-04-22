@@ -90,7 +90,7 @@ public class View implements Runnable {
 		}
 
 		try {
-			int seconds = 120;
+			int seconds = 90;
 			while ( !(Display.isCloseRequested() || Keyboard.isKeyDown(Keyboard.KEY_Q))) {
 				// Don't eat everything!!!
 				try {
@@ -184,10 +184,10 @@ public class View implements Runnable {
 					GL11.glEnable(GL11.GL_TEXTURE_2D);
 					
 					GL11.glColor3f(1f, 1f, 1f);
-					
+						
 					Text.drawString("Bullets: " + model.player1.getAmmo(), 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.LEFT, Text.VerticalAlignment.TOP);
 					Text.drawString("Bullets: " + model.player2.getAmmo(), windowWidth - 100, 10, Text.Size.LARGE, Text.HorizontalAlignment.RIGHT, Text.VerticalAlignment.TOP);
-					seconds = +(int)Math.floor(120-(System.currentTimeMillis() - controller.startTime)/1000);
+					seconds = +(int)Math.floor(90-(System.currentTimeMillis() - controller.startTime)/1000);
 					if( seconds == 0 ){
 						if( model.player1.getKillCount() > model.player2.getKillCount() ){
 							screenState = ScreenState.PLAYER1WIN;
